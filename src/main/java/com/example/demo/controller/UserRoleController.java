@@ -3,7 +3,8 @@ package com.example.demo.controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RestController;
+import com.example.demo.controller.BaseController;
 
 /**
  * <p>
@@ -13,9 +14,9 @@ import org.springframework.stereotype.Controller;
  * @author zxl
  * @since 2021-07-02
  */
-@Controller
+@RestController
 @RequestMapping("/userRole")
-public class UserRoleController {
+public class UserRoleController extends BaseController {
 
 }
 

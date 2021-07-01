@@ -4,8 +4,9 @@ package com.example.demo.controller;
 import com.example.demo.util.R;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import com.example.demo.controller.BaseController;
 
 /**
  * <p>
@@ -17,12 +18,12 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/user")
-public class UserController {
+public class UserController extends BaseController {
 
 
-    @RequestMapping("/tt")
-    public R tt(){
-        return R.ok();
+    @RequestMapping(value = "/t",method = RequestMethod.POST)
+    public R t(){
+        return R.ok("t");
     }
 }
 
