@@ -162,7 +162,9 @@ export default {
                 const file = item.getAsFile();
                 if (/image/gi.test(file.type)) {
                     this.$emit('on-upload-image', file);
+                  console.log(file)
                     e.preventDefault();
+                  this.insertContent(`![image](imgUrl)`)
                 }
             }
         },

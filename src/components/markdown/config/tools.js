@@ -4,6 +4,7 @@
 export default {
     strong: true,
     italic: true,
+    center:true,
     overline: true,
     h1: true,
     h2: true,

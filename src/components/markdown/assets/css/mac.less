@@ -41,6 +41,7 @@
     }
   }
 
+
   * {
     //-webkit-font-smoothing: antialiased;
   }
@@ -142,5 +143,44 @@
 
   pre.bg code {
     background: #f7f7f7;
+  }
+  ul {
+    list-style: none;
+    padding: 0 20px;
+
+    li {
+      position: relative;
+
+      &:after {
+        //display: block;
+        //content: "";
+        //width: 8px;
+        //height: 8px;
+        //border-radius: 50%;
+        //position: absolute;
+        //z-index: 99;
+        //top: 12px;
+        //left: -8px;
+        //background: @content;
+        display: block;
+        content: "";
+        width: 4px;
+        height: 4px;
+        border-radius: 50%;
+        position: absolute;
+        z-index: 99;
+        top: 12px;
+        left: -8px;
+        background: #9e9696;
+      }
+
+    }
+  }
+  ol {
+    li{
+      &::marker{
+        color: #a09b9b;
+      }
+    }
   }
 }
