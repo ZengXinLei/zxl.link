@@ -49,7 +49,10 @@ public class GeneratorCode {
         StrategyConfig strategy = new StrategyConfig();
         strategy.setNaming(NamingStrategy.underline_to_camel);
         strategy.setColumnNaming(NamingStrategy.underline_to_camel);
-//        strategy.setSuperControllerClass("com.example.demo.controller");
+
+
+        strategy.setSuperControllerClass("com.example.demo.controller.BaseController");
+        strategy.setRestControllerStyle(true);
 //        strategy.setSuperServiceClass("com.example.demo.service");
 //        strategy.setSuperMapperClass("com.example.demo.dao");
 //        strategy.setSuperEntityClass("com.example.demo.entity");
