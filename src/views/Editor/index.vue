@@ -11,7 +11,7 @@
 // import Markdown from '@/components/vue-markdown/components/simple/index'
 // import {MarkdownPro} from  'vue-meditor'
 // import MarkdownSimple from "@/components/vue-markdown/components/simple/simple";
-import MarkdownPro from "@/components/vue-markdown/pro";
+import MarkdownPro from "@/components/markdown/pro";
 export default {
   name: 'Editor',
   components: {
