@@ -26,7 +26,7 @@ service.interceptors.request.use(
 
     }
     // config.headers['Content-Type']='application/x-www-form-urlencoded'
-    console.log(config)
+    // console.log(config)
     return config
   },
   error => {

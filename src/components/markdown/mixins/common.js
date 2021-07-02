@@ -1,5 +1,6 @@
 import {saveFile} from '../utils';
 import defaultTools from '../config/tools';
+import request from '@/utils/request'
 
 export default {
     name: 'markdown',
@@ -162,9 +163,19 @@ export default {
                 const file = item.getAsFile();
                 if (/image/gi.test(file.type)) {
                     this.$emit('on-upload-image', file);
-                  console.log(file)
+                    let forms=new FormData()
+                  forms.append("img",file)
+                  // console.log(file)
+                  request.post("/article/upload",forms,{
+                    headers:{'Content-Type':'multipart/form-data'}
+                  }).then(res=>{
+                    if(res.data.code===0){
+                      this.insertContent(`![image](http://localhost:8080/${res.data.pre+res.data.fileName})`)
+
+                    }
+                  })
                     e.preventDefault();
-                  this.insertContent(`![image](imgUrl)`)
+                  // this.insertContent(`![image](imgUrl)`)
                 }
             }
         },
@@ -191,6 +202,7 @@ export default {
         previewImage(src) {// 预览图片
             const img = new Image();
             img.src = src;
+          console.log(img)
             img.onload = () => {
                 const width = img.naturalWidth;
                 const height = img.naturalHeight;
