@@ -8,3 +8,7 @@ spring:
     password: root123
     url: jdbc:mysql://localhost:3306/zengblog?serverTimezone=UTC
     username: root
+
+
+file:
+  path: "D:\\img"
