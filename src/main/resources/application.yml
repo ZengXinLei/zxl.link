@@ -1,11 +1,6 @@
 server:
-    port: 8080
+  port: 8080
+
 spring:
-    application:
-        name: demo
-    datasource:
-        driver-class-name: com.mysql.cj.jdbc.Driver
-        name: defaultDataSource
-        password: root123
-        url: jdbc:mysql://localhost:3306/zengblog?serverTimezone=UTC
-        username: root
+  profiles:
+    active: dev
