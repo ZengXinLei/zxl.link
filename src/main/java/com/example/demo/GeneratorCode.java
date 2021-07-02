@@ -25,6 +25,7 @@ public class GeneratorCode {
         String projectPath = System.getProperty("user.dir");
         gc.setOutputDir(projectPath + "/src/main/java");  //生成路径(一般都是生成在此项目的src/main/java下面)
         gc.setAuthor("zxl"); //设置作者
+
         gc.setOpen(false);
         gc.setFileOverride(true); //第二次生成会把第一次生成的覆盖掉
         gc.setServiceName("Z%sService"); //生成的service接口名字首字母是否为I，这样设置就没有
@@ -58,7 +59,7 @@ public class GeneratorCode {
 //        strategy.setSuperEntityClass("com.example.demo.entity");
         // strategy.setTablePrefix("t_"); // 表名前缀
         strategy.setEntityLombokModel(true); //使用lombok
-        String[] tables={"user","user_role","role"};
+        String[] tables={"article"};
         strategy.setInclude(tables);  // 逆向工程使用的表   如果要生成多个,这里可以传入String[]
         mpg.setStrategy(strategy);
 
