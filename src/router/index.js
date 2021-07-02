@@ -66,6 +66,17 @@ export const constantRoutes = [
     }]
   },
   {
+    path: '/',
+    component: Layout,
+    // redirect: '/tags',
+    children: [{
+      path: 'tags',
+      name: '标签管理',
+      component: () => import('@/views/articleTags/index'),
+      meta: { title: '标签管理', icon: 'dashboard' }
+    }]
+  },
+  {
     path: '/example',
     component: Layout,
     redirect: '/example/table',

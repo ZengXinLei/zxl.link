@@ -16,8 +16,12 @@
     <el-dialog title="发布文章"
                :visible.sync="showDialog">
 
+      <el-alert
+        title="请勿发布涉及政治、广告、营销、翻墙、违反国家法律法规等内容"
+        type="warning"
+        :closable="false"></el-alert>
       <el-form :model="dataForm">
-        <el-form-item label="文章标签">
+        <el-form-item label="文章标签：" style="margin: 0">
           <template slot-scope="row">
             <el-popover
               placement="bottom"
@@ -33,6 +37,43 @@
 
             </el-popover>
           </template>
+        </el-form-item>
+        <el-form-item label="分类专栏：" style="margin: 0">
+          <template slot-scope="row">
+            <el-container>
+              <el-header style="padding: 0" height="30px">
+                <el-button type="info" size="mini" icon="el-icon-plus">新建分类专栏</el-button>
+
+              </el-header>
+              <el-main style="padding: 20px 0">
+
+                <div class="classification_column">
+
+                  <div style="border-bottom: #DCDFE6 1px solid">最多选择3个分类专栏 <font>#为二级分类</font></div>
+
+                </div>
+              </el-main>
+            </el-container>
+
+          </template>
+        </el-form-item>
+        <el-form-item label="文章类型：" style="margin-bottom: 10px">
+          <template slot-scope="row">
+            <el-select v-model="dataForm.articleType" placeholder="请选择">
+<!--              <el-option-->
+<!--                v-for="item in options"-->
+<!--                :key="item.value"-->
+<!--                :label="item.label"-->
+<!--                :value="item.value">-->
+<!--              </el-option>-->
+            </el-select>
+          </template>
+        </el-form-item >
+        <el-form-item label="发布形式：" style="margin: 0">
+          <el-radio  label="1">公开</el-radio>
+          <el-radio  label="1">公开</el-radio>
+          <el-radio  label="1">公开</el-radio>
+          <el-radio  label="1">公开</el-radio>
         </el-form-item>
       </el-form>
       <span slot="footer">
@@ -100,5 +141,20 @@ export default {
   line-height: 24px;
   cursor: pointer;
   margin-right: 10px;
+}
+
+.classification_column{
+  width: 99%;
+  height: 160px;
+  margin-top: 0;
+  border-radius: 4px;
+  border: 1px solid #e8e8ee;
+  padding: 0 16px;
+  font{
+    font-weight: 400;
+    font-size: 14px;
+    color: #ccccd8;
+    margin-left: 10px;
+  }
 }
 </style>
