@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableField;
 import java.io.Serializable;
+import java.util.List;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -35,7 +37,11 @@ public class Tag implements Serializable {
     /**
      * 标签名称
      */
-    private String name;
+    private String label;
+
+
+    @TableField(exist = false)
+    private List<Tag> children;
 
 
 }

@@ -1,9 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.entity.User;
-import com.example.demo.service.ZRoleService;
-import com.example.demo.service.ZUserRoleService;
-import com.example.demo.service.ZUserService;
+import com.example.demo.service.*;
 import org.apache.catalina.security.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -24,6 +22,13 @@ public abstract class BaseController {
     ZUserRoleService zUserRoleService;
     @Autowired
     ZUserService zUserService;
+
+    @Autowired
+    ZArticleService zArticleService;
+    @Autowired
+    ZArticleTagService zArticleTagService;
+    @Autowired
+    ZTagService zTagService;
 
 //
 //    protected User getUser(){
