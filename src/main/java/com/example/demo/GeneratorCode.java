@@ -59,7 +59,7 @@ public class GeneratorCode {
 //        strategy.setSuperEntityClass("com.example.demo.entity");
         // strategy.setTablePrefix("t_"); // 表名前缀
         strategy.setEntityLombokModel(true); //使用lombok
-        String[] tables={"article"};
+        String[] tables={"article_tag","tag"};
         strategy.setInclude(tables);  // 逆向工程使用的表   如果要生成多个,这里可以传入String[]
         mpg.setStrategy(strategy);
 
