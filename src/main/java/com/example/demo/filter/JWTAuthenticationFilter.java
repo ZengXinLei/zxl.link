@@ -84,10 +84,10 @@ public class JWTAuthenticationFilter extends BasicAuthenticationFilter {
                     .setSigningKey(SecurityConstant.JWT_SIGN_KEY)
                     .parseClaimsJws(header.replace(SecurityConstant.TOKEN_SPLIT, ""))
                     .getBody();
-            logger.info("claims：" + claims);
+//            logger.info("claims：" + claims);
 //            获取用户名
             username = claims.getSubject();
-            logger.info("username：" + username);
+//            logger.info("username：" + username);
 //            获取权限
 //            String authority = claims.get(SecurityConstant.AUTHORITIES).toString();
 //            logger.info("authority：" + authority);
