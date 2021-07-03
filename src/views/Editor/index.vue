@@ -20,18 +20,56 @@
         title="请勿发布涉及政治、广告、营销、翻墙、违反国家法律法规等内容"
         type="warning"
         :closable="false"></el-alert>
-      <el-form :model="dataForm">
+      <el-form >
         <el-form-item label="文章标签：" style="margin: 0">
-          <template slot-scope="row">
+          <template >
             <el-popover
               placement="bottom"
 
               width="600"
               trigger="click"
+
+
               >
               <div>还可以添加5个标签</div>
               <el-input aria-placeholder="输入文字搜索"></el-input>
 
+              <el-container v-loading="tags===null">
+
+                <el-header v-if="tags!==null" style="display:flex;flex-direction: row;flex-wrap: wrap">
+
+                  <div v-for="(tag,index) in tags" :class="tag.id===checkedPTagId?'checked-tag-1':'tag-1'">{{tag.label}}</div>
+                  <div class="checked-tag-1">工具</div>
+                  <div class="checked-tag-1">工具</div>
+                  <div class="checked-tag-1">工具</div>
+                  <div class="checked-tag-1">工具</div>
+                  <div class="checked-tag-1">工具</div>
+                  <div class="checked-tag-1">工具</div>
+                  <div class="checked-tag-1">工具</div>
+                  <div class="checked-tag-1">工具</div>
+                  <div class="checked-tag-1">工具</div>
+                  <div class="checked-tag-1">工具</div>
+                  <div class="checked-tag-1">工具</div>
+                  <div class="checked-tag-1">工具</div>
+<!--                  <div class="checked-tag-1">工具</div>-->
+<!--                  <div class="checked-tag-1">工具</div>-->
+<!--                  <div class="checked-tag-1">工具</div>-->
+<!--                  <div class="checked-tag-1">工具</div>-->
+<!--                  <div class="checked-tag-1">工具</div>-->
+<!--                  <div class="checked-tag-1">工具</div>-->
+<!--                  <div class="checked-tag-1">工具</div>-->
+<!--                  <div class="checked-tag-1">工具</div>-->
+<!--                  <div class="checked-tag-1">工具</div>-->
+<!--                  <div class="checked-tag-1">工具</div>-->
+<!--                  <div class="checked-tag-1">工具</div>-->
+<!--                  <div class="checked-tag-1">工具</div>-->
+<!--                  <div class="tag-1">工具</div>-->
+<!--                  <div class="tag-1">工具</div>-->
+                </el-header>
+                <el-main>
+
+                </el-main>
+              </el-container>
 <!--              <span class="choose_button"></span>-->
               <el-button slot="reference" type="info" size="mini" icon="el-icon-plus">选择标签</el-button>
 
@@ -39,7 +77,7 @@
           </template>
         </el-form-item>
         <el-form-item label="分类专栏：" style="margin: 0">
-          <template slot-scope="row">
+          <template >
             <el-container>
               <el-header style="padding: 0" height="30px">
                 <el-button type="info" size="mini" icon="el-icon-plus">新建分类专栏</el-button>
@@ -58,15 +96,15 @@
           </template>
         </el-form-item>
         <el-form-item label="文章类型：" style="margin-bottom: 10px">
-          <template slot-scope="row">
-            <el-select v-model="dataForm.articleType" placeholder="请选择">
-<!--              <el-option-->
-<!--                v-for="item in options"-->
-<!--                :key="item.value"-->
-<!--                :label="item.label"-->
-<!--                :value="item.value">-->
-<!--              </el-option>-->
-            </el-select>
+          <template >
+<!--            <el-select v-model="dataForm.articleType" placeholder="请选择">-->
+<!--&lt;!&ndash;              <el-option&ndash;&gt;-->
+<!--&lt;!&ndash;                v-for="item in options"&ndash;&gt;-->
+<!--&lt;!&ndash;                :key="item.value"&ndash;&gt;-->
+<!--&lt;!&ndash;                :label="item.label"&ndash;&gt;-->
+<!--&lt;!&ndash;                :value="item.value">&ndash;&gt;-->
+<!--&lt;!&ndash;              </el-option>&ndash;&gt;-->
+<!--            </el-select>-->
           </template>
         </el-form-item >
         <el-form-item label="发布形式：" style="margin: 0">
@@ -89,35 +127,58 @@
 
 <script>
 
-// import Markdown from '@/components/vue-markdown/components/simple/index'
-// import {MarkdownPro} from  'vue-meditor'
-// import MarkdownSimple from "@/components/vue-markdown/components/simple/simple";
 import MarkdownPro from "@/components/markdown/pro";
 export default {
   name: 'Editor',
+  components: {
+    MarkdownPro,
+  },
   data(){
-    let height=document.documentElement.clientHeight-100
     return{
-      markdownHeight:height,
-      showDialog:true,
-      dataForm:{}
+      markdownHeight:300,
+      showDialog:true,//显示保存会话框
+      dataForm:{
+        articleType:""
+      },//提交的数据
+      tags:null,//所有标签
+
+      checkedTags:[],//选择的文章标签
+      checkedPTagId:-1,//选择的一级标签，-1表示没选择
+      pageMap:{//标签分页
+        page:1,
+        limit:999,
+        parentId:0
+      },
     }
   },
+
   mounted() {
 
+    this.markdownHeight=document.documentElement.clientHeight-100
     window.addEventListener("resize",()=>{
       this.markdownHeight=document.documentElement.clientHeight-100
     })
+    this.taglist()
   },
-  components: {
-    MarkdownPro,
-    // MarkdownSimple
-    // Markdown
+
+  methods:{
+    /**
+     * 获取所有标签
+     */
+    taglist(){
+      console.log(this.pageMap)
+      this.$axios.post("/tag/list",{
+        ...this.pageMap
+      }).then(res=>{
+        this.tags=res.data.list.records
+      })
+    }
   }
 }
 </script>
 
 <style lang="less" scoped>
+@tag-mt:5px;
 .top{
   //padding-left: 30px;
   //padding-right: 30px;
@@ -156,5 +217,30 @@ export default {
     color: #ccccd8;
     margin-left: 10px;
   }
+}
+
+.tag-1{
+  margin-top: @tag-mt;
+  padding: 0 5px;
+  border-radius: 2px;
+  height: 24px;
+  line-height: 24px;
+  color: #3d3d3d;
+  cursor: pointer;
+}
+.checked-tag-1{
+  margin-top: @tag-mt;
+  background: #fcecea;
+
+  color: #e33e33;
+  border-radius: 2px;
+  border: 1px solid #fcecea;
+
+  padding: 0 5px;
+
+  height: 24px;
+  line-height: 24px;
+  cursor: pointer;
+  //color: #3d3d3d;
 }
 </style>
