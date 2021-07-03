@@ -54,7 +54,7 @@ service.interceptors.response.use(
     // if the custom code is not 20000, it is judged as an error.
     if (res.code === 401 ) {
       Message({
-        message: res.message || '登录已过期',
+        message: res.msg || '登录已过期',
         type: 'error',
         duration: 5 * 1000
       })
@@ -62,10 +62,26 @@ service.interceptors.response.use(
       setTimeout(()=>{
         router.push("/login")
       },500)
+      return Promise.reject(response)
 
 
     }
+    else if(res.code===500){
+      Message({
+        message: res.msg,
+        type: 'error',
+        duration: 5 * 1000
+      })
+      return Promise.reject(response)
+    }
     else {
+      if(res.msg!=="success"){
+        Message({
+          message: res.msg,
+          type: 'success',
+        })
+      }
+
       return response
     }
   },
