@@ -12,3 +12,11 @@ spring:
 
 file:
   path: "D:\\img"
+
+logging:
+  level:
+    com.example.demo.mapper: debug
+
+#mybatis-plus:
+#  configuration:
+#    log-impl: org.apache.ibatis.logging.log4j.Log4jImpl
