@@ -22,6 +22,12 @@ public interface SecurityConstant {
      */
     String AUTHORITIES = "ROLE_";
 
+
+    /**
+     * 用户id
+     */
+    String ID="uid";
+
     /**
      * 用户选择JWT保存时间参数头
      */
@@ -40,5 +46,5 @@ public interface SecurityConstant {
     /**
      * 过期时间
      */
-    long EXPIRATION_TIME = 1000 * 60 * 30;
+    long EXPIRATION_TIME = 1000 * 60;
 }
