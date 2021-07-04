@@ -1,10 +1,16 @@
 package com.example.demo.controller;
 
 
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.example.demo.entity.Category;
+import com.example.demo.util.R;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.controller.BaseController;
+
+import java.util.List;
 
 /**
  * <p>
@@ -17,6 +23,15 @@ import com.example.demo.controller.BaseController;
 @RestController
 @RequestMapping("/category")
 public class CategoryController extends BaseController {
+
+
+
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @RequestMapping("/list")
+    public R list(){
+        List<Category> list = zCategoryService.list(Wrappers.<Category>lambdaQuery().eq(Category::getUid, getUserId()));
+        return R.ok().put("list",list);
+    }
 
 }
 
