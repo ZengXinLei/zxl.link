@@ -35,6 +35,8 @@ public abstract class BaseController {
     @Autowired
     ZTagService zTagService;
 
+    @Autowired
+    ZCategoryService zCategoryService;
 
     protected User getUser(){
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
