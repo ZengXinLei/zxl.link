@@ -46,5 +46,5 @@ public interface SecurityConstant {
     /**
      * 过期时间
      */
-    long EXPIRATION_TIME = 1000 * 60;
+    long EXPIRATION_TIME = 1000 * 60*60;
 }
