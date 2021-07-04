@@ -17,7 +17,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author zxl
@@ -43,7 +43,7 @@ public class User implements Serializable, UserDetails {
      */
     private String password;
 
-    private Integer roleId;
+
 
     @TableField(exist = false)
     private List<Role> roleList;
