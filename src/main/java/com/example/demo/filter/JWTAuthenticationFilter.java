@@ -1,12 +1,16 @@
 package com.example.demo.filter;
 
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.example.demo.config.SecurityConstant;
+import com.example.demo.entity.Role;
 import com.example.demo.entity.User;
+import com.example.demo.service.ZRoleService;
 import com.example.demo.util.R;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
@@ -34,6 +38,8 @@ import java.util.Map;
  * @create: 2021-07-02 5:44
  */
 public class JWTAuthenticationFilter extends BasicAuthenticationFilter {
+
+
 
     private Integer tokenExpireTime;
 
@@ -72,8 +78,9 @@ public class JWTAuthenticationFilter extends BasicAuthenticationFilter {
 
     private UsernamePasswordAuthenticationToken getAuthentication(String header, HttpServletResponse response) throws IOException {
 
-//        用户名
-        String username = null;
+        response.setCharacterEncoding("utf-8");
+        User user = new User();
+
 //        权限
         List<GrantedAuthority> authorities = new ArrayList<>();
 
@@ -86,23 +93,27 @@ public class JWTAuthenticationFilter extends BasicAuthenticationFilter {
                     .getBody();
 //            logger.info("claims：" + claims);
 //            获取用户名
-            username = claims.getSubject();
+            user.setName(claims.getSubject());
+            user.setId((Integer) claims.get(SecurityConstant.ID));
+            user.setRoleList(new ArrayList<Role>());
+//            username = claims.getSubject();
+//            id = (int) claims.get(SecurityConstant.ID);
 //            logger.info("username：" + username);
 //            获取权限
-//            String authority = claims.get(SecurityConstant.AUTHORITIES).toString();
-//            logger.info("authority：" + authority);
-//            if (!StringUtils.isEmpty(authority)) {
-//                Arrays.stream(authority.split(",")).forEach(e -> {
-//                    authorities.add(new SimpleGrantedAuthority(e));
-//
-//                });
-//            }
             List<Map<String, String>> mapList = (List<Map<String, String>>) claims.get(SecurityConstant.AUTHORITIES);
-            if(mapList.size()!=0){
-                mapList.forEach(e->{
+            if (mapList.size() != 0) {
+                mapList.forEach(e -> {
+                    Role role = new Role();
+                    role.setName(e.get("authority"));
                     authorities.add(new SimpleGrantedAuthority(e.get("authority")));
+                    user.getRoleList().add(role);
+
                 });
             }
+
+
+
+
 
 //            System.out.println(o);
         } catch (ExpiredJwtException e) {
@@ -114,6 +125,7 @@ public class JWTAuthenticationFilter extends BasicAuthenticationFilter {
             writer.close();
         } catch (Exception e) {
 
+            e.printStackTrace();
             PrintWriter writer = response.getWriter();
             // 将登陆信息写回到前端
             new ObjectMapper().writeValue(writer, R.error("解析token错误"));
@@ -121,11 +133,10 @@ public class JWTAuthenticationFilter extends BasicAuthenticationFilter {
             writer.close();
         }
 
-        if (!"".equals(username)) {
-//            踩坑提醒 此处password不能为null
-            User user = new User();
-            user.setName(username);
+        if (!"".equals(user.getName())) {
+//          此处password不能为null
             user.setPassword("");
+
             return new UsernamePasswordAuthenticationToken(user, null, authorities);
         }
         return null;

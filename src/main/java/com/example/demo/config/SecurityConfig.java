@@ -82,8 +82,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                             .setSubject(httpServletRequest.getParameter("name"))
 //                        自定义属性,放入用户拥有请求权限
                             .claim(SecurityConstant.AUTHORITIES, authentication.getAuthorities())
+
+                            .claim(SecurityConstant.ID,user.getId())
                             //失效时间
-                            .setExpiration(new Date(System.currentTimeMillis() + 7 * 60 * 1000))
+                            .setExpiration(new Date(System.currentTimeMillis() + SecurityConstant.EXPIRATION_TIME))
 //                                签名算法和密钥
                             .signWith(SignatureAlgorithm.HS512, SecurityConstant.JWT_SIGN_KEY)
                             .compact();
