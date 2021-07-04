@@ -18,8 +18,12 @@ public class ZxlExceptionHandler {
     @ExceptionHandler(value = Exception.class)
     @ResponseBody
     public R ErrorHandle(Exception e){
+        e.printStackTrace();
 
-//        e.getStackTrace()
+
+        if(e instanceof org.springframework.security.access.AccessDeniedException)
+            return R.error("不允许访问");
+
         return R.error();
     }
 }
