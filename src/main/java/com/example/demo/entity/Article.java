@@ -44,7 +44,7 @@ public class Article implements Serializable {
     private String contentHtml;
 
     /**
-     * md内容
+     * 原内容
      */
     private String contentText;
 

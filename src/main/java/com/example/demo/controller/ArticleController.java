@@ -34,7 +34,7 @@ public class ArticleController extends BaseController {
     @Value(value = "${file.path}")
     private String path;
 
-    @PreAuthorize(value = "hasRole('ROLE_USER')")
+//    @PreAuthorize(value = "hasRole('ROLE_USER')")
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
     public R upload(@RequestParam("img") MultipartFile file) {
         if (file.getSize() >= 5 * 1024 * 1024) {

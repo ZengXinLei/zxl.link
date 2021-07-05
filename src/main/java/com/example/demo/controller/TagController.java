@@ -29,7 +29,7 @@ import java.util.stream.Collectors;
 public class TagController extends BaseController {
 
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+//    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value = "/list",method = RequestMethod.POST)
     public R list(@RequestBody Map<String,Integer> map){
         IPage<Tag> parents = zTagService.pageList(map);
@@ -45,7 +45,7 @@ public class TagController extends BaseController {
     }
 
     @Transactional(rollbackFor = Exception.class)
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+//    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value = "/save",method = RequestMethod.POST)
     public R save(@RequestBody Tag tag){
 
@@ -59,7 +59,7 @@ public class TagController extends BaseController {
         return R.ok("添加成功");
     };
     @Transactional(rollbackFor = Exception.class)
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+//    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value = "/remove",method = RequestMethod.POST)
     public R remove(@RequestParam("ids") String tagIds)
     {

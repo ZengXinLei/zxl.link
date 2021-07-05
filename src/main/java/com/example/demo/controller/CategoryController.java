@@ -26,7 +26,7 @@ public class CategoryController extends BaseController {
 
 
 
-    @PreAuthorize("hasRole('ROLE_USER')")
+//    @PreAuthorize("hasRole('ROLE_USER')")
     @RequestMapping("/list")
     public R list(){
         List<Category> list = zCategoryService.list(Wrappers.<Category>lambdaQuery().eq(Category::getUid, getUserId()));

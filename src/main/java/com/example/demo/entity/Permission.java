@@ -1,9 +1,9 @@
 package com.example.demo.entity;
 
+import java.io.Serializable;
+
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableField;
-import java.io.Serializable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -14,35 +14,30 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author zxl
- * @since 2021-07-02
+ * @since 2021-07-06
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-public class Role implements Serializable {
+public class Permission implements Serializable {
 
     private static final long serialVersionUID=1L;
-
-      @TableId(value = "id", type = IdType.AUTO)
-    private Integer id;
-
-    /**
-     * 权限名称
-     */
-    private String name;
+    @TableId(value = "id", type = IdType.AUTO)
+      private Integer id;
 
     /**
-     * 权限中文名称
+     * 描述
      */
-    @TableField("nameZh")
-    private String nameZh;
-
+    private String description;
 
     /**
-     * 等级(0最高)
+     * 类型(0:页面路由，1:rest接口)
      */
-    private Integer level;
+    private Integer type;
 
-
+    /**
+     * 值
+     */
+    private String value;
 
 }

@@ -1,6 +1,8 @@
 package com.example.demo.config;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.example.demo.component.RoleAccessDecisionManager;
+import com.example.demo.component.ZxlMetadataSource;
 import com.example.demo.entity.User;
 import com.example.demo.filter.JWTAuthenticationFilter;
 import com.example.demo.service.ZUserService;
@@ -14,6 +16,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl;
+import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -21,6 +24,7 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -67,9 +71,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return roleHierarchy;
     }
 
+
+    @Autowired
+    RoleAccessDecisionManager roleAccessDecisionManager;
+
+    @Autowired
+    ZxlMetadataSource zxlMetadataSource;
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http
+        http.authorizeRequests()
+                .withObjectPostProcessor(new ObjectPostProcessor<FilterSecurityInterceptor>() {
+                    @Override
+                    public <O extends FilterSecurityInterceptor> O postProcess(O o) {
+                        o.setSecurityMetadataSource(zxlMetadataSource);
+                        o.setAccessDecisionManager(roleAccessDecisionManager);
+                        return o;
+                    }
+                }).and()
                 .csrf().disable().exceptionHandling()
                 .and()
                 .authorizeRequests()

@@ -60,7 +60,7 @@ public class GeneratorCode {
         // strategy.setTablePrefix("t_"); // 表名前缀
 
         strategy.setEntityLombokModel(true); //使用lombok
-        String[] tables={"gitee"};
+        String[] tables={"permission_role","permission"};
         strategy.setInclude(tables);  // 逆向工程使用的表   如果要生成多个,这里可以传入String[]
         mpg.setStrategy(strategy);
 
