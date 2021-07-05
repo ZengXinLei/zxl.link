@@ -12,6 +12,8 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
+import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -57,6 +59,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         super.configure(web);
     }
 
+    @Bean
+    public RoleHierarchy roleHierarchy(){
+        RoleHierarchyImpl roleHierarchy = new RoleHierarchyImpl();
+        String hierarchy = "ROLE_DBA > ROLE_ADMIN \n ROLE_ADMIN > ROLE_USER";
+        roleHierarchy.setHierarchy(hierarchy);
+        return roleHierarchy;
+    }
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
@@ -98,8 +108,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     writer.close();
                 }))
                 .failureHandler(((httpServletRequest, httpServletResponse, e) -> {
+                    httpServletResponse.setCharacterEncoding("utf-8");
                     PrintWriter writer = httpServletResponse.getWriter();
-                    new ObjectMapper().writeValue(writer, R.error());
+                    new ObjectMapper().writeValue(writer, R.error("账号或密码错误"));
                     writer.flush();
                     writer.close();
                 }))
