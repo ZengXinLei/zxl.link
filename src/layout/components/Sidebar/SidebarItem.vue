@@ -93,3 +93,6 @@ export default {
   }
 }
 </script>
+<style scoped>
+@import "~@/assets/alifont/iconfont.css";
+</style>
