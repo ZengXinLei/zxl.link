@@ -46,6 +46,14 @@ public abstract class BaseController {
 
     @Autowired
     RestTemplate restTemplate;
+
+    @Autowired
+    ZPermissionService zPermissionService;
+    @Autowired
+    ZPermissionRoleService zPermissionRoleService;
+
+    @Autowired
+    ZPagecomponentService zPagecomponentService;
     @Bean
     public RestTemplate restTemplate(){
 
