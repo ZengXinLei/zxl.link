@@ -9,7 +9,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * </p>
  *
  * @author zxl
- * @since 2021-07-06
+ * @since 2021-07-07
  */
 public interface ZPermissionService extends IService<Permission> {
 

@@ -10,7 +10,7 @@ import org.apache.ibatis.annotations.Mapper;
  * </p>
  *
  * @author zxl
- * @since 2021-07-06
+ * @since 2021-07-07
  */
 @Mapper
 public interface PermissionMapper extends BaseMapper<Permission> {
