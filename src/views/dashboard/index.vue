@@ -1,6 +1,6 @@
 <template>
   <div class="dashboard-container">
-    <div class="dashboard-text">name: {{ name }}</div>
+    <el-button @click="test"></el-button>
   </div>
 </template>
 
@@ -13,6 +13,15 @@ export default {
     ...mapGetters([
       'name'
     ])
+  },
+  methods:{
+    test(){
+      this.$axios.post("/user/t").then(res=>{
+        // console.log(res)
+        // console.log(this.$router.options.routes)
+
+      })
+    }
   }
 }
 </script>

@@ -82,16 +82,20 @@ service.interceptors.response.use(
         })
       }
 
+
       return response
     }
   },
   error => {
-    console.log('err' + error) // for debug
-    Message({
-      message: error.message,
-      type: 'error',
-      duration: 5 * 1000
-    })
+    // console.log(error.message) // for debug
+    if("Request failed with status code 403"===error.message)
+    {
+      Message({
+        message: "权限不足",
+        type: 'error',
+        duration: 5 * 1000
+      })
+    }
     return Promise.reject(error)
   }
 )

@@ -59,7 +59,7 @@
 
 <script>
 import { validUsername } from '@/utils/validate'
-import { setToken } from '@/utils/auth'
+import { setToken, setUser } from '@/utils/auth'
 
 export default {
   name: 'Login',
@@ -129,19 +129,23 @@ export default {
       // })
       this.loading = true
       this.$axios.post('/login', this.$qs.stringify({
-        name: 'root',
-        password: '123'
+
+        ...this.loginForm
       })).then(res => {
-        console.log(res)
-        if (res.data.code === 0) {
-          console.log("登陆成功")
-          console.log(res.data.token)
+
+        return new Promise((resolve, reject) => {
           setToken(res.data.token)
           this.loading = false
 
           this.$router.push('/')
+          resolve()
+        })
 
-        }
+      }).then(() => {
+        return this.$axios.post('/user/baseInfo')
+
+      }).then(res => {
+        setUser(res.data.baseInfo)
       })
     }
   }

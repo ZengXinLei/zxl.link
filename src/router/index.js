@@ -5,6 +5,7 @@ Vue.use(Router)
 
 /* Layout */
 import Layout from '@/layout'
+import request from '@/utils/request'
 
 /**
  * Note: sub-menu only appear when route children.length >= 1
@@ -55,18 +56,18 @@ export const constantRoutes = [
     }]
   },
   {
-    path: '/',
+    path: '/article',
     component: Layout,
     redirect: '/editor',
     children: [{
-      path: 'editor',
+      path: '/editor',
       name: '发布文章',
       component: () => import('@/views/Editor/index'),
-      meta: { title: '发布文章', icon: 'dashboard' }
+      meta: { title: '发布文章', icon: 'icon-map' }
     }]
   },
   {
-    path: '/',
+    path: '/tags',
     component: Layout,
     // redirect: '/tags',
     children: [{
@@ -76,25 +77,32 @@ export const constantRoutes = [
       meta: { title: '标签管理', icon: 'dashboard' }
     }]
   },
+
   {
-    path: '/example',
+    path: '/settings',
     component: Layout,
-    redirect: '/example/table',
-    name: 'Example',
-    meta: { title: 'Example', icon: 'el-icon-s-help' },
+    // redirect: '/example/table',
+    name: '系统设置',
+    meta: { title: '系统设置', icon: 'el-icon-s-help' },
     children: [
       {
-        path: 'table',
-        name: 'Table',
-        component: () => import('@/views/table/index'),
-        meta: { title: 'Table', icon: 'table' }
+        path: '/permission',
+        name: '权限管理',
+        component: () => import('@/views/settings/permission/index'),
+        meta: { title: '权限管理', icon: 'table' }
       },
       {
-        path: 'tree',
-        name: 'Tree',
-        component: () => import('@/views/tree/index'),
-        meta: { title: 'Tree', icon: 'tree' }
-      }
+        path: '/pageComponent',
+        name: '页面组件管理',
+        component: () => import('@/views/settings/pageComponents/index'),
+        meta: { title: '页面组件管理', icon: 'tree' }
+      },
+      {
+        path: '/roles',
+        name: '角色管理',
+        component: () => import('@/views/settings/role/index'),
+        meta: { title: '角色管理', icon: 'tree' }
+      },
     ]
   },
 
@@ -185,11 +193,13 @@ export const constantRoutes = [
   { path: '*', redirect: '/404', hidden: true }
 ]
 
-const createRouter = () => new Router({
-  mode: 'history', // require service support
-  scrollBehavior: () => ({ y: 0 }),
-  routes: constantRoutes
-})
+const createRouter = () => {
+  return new Router({
+    mode: 'history', // require service support
+    scrollBehavior: () => ({ y: 0 }),
+    routes: constantRoutes
+  })
+}
 
 const router = createRouter()
 
