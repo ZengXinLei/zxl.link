@@ -1,10 +1,12 @@
 package com.example.demo.component;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.access.AccessDecisionManager;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
+import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -25,6 +27,14 @@ import java.util.stream.Collectors;
  */
 @Component
 public class RoleAccessDecisionManager implements AccessDecisionManager {
+
+    @Bean
+    public RoleHierarchy roleHierarchy(){
+        RoleHierarchyImpl roleHierarchy = new RoleHierarchyImpl();
+        String hierarchy = "ROLE_DBA > ROLE_ADMIN \n ROLE_ADMIN > ROLE_USER";
+        roleHierarchy.setHierarchy(hierarchy);
+        return roleHierarchy;
+    }
     /**
      * decide 方法是判定是否拥有权限的决策方法，
      *
@@ -56,16 +66,11 @@ public class RoleAccessDecisionManager implements AccessDecisionManager {
         List<? extends GrantedAuthority> hasRoles = authorities.stream().collect(Collectors.toList());
         List<ConfigAttribute> urlNeedRoles=(ArrayList)collection;
 
-        List<? extends GrantedAuthority> reachableGrantedAuthorities = (ArrayList)roleHierarchy.getReachableGrantedAuthorities(authorities);
-        AtomicInteger index=new AtomicInteger(0);
-        //当前角色的继承关系
-        Map<String, Integer> map = reachableGrantedAuthorities.stream().collect(Collectors.toMap(GrantedAuthority::getAuthority, w -> index.getAndIncrement()));
 
-        boolean match = urlNeedRoles.stream().allMatch(e->map.get(e.getAttribute())!=null);
-        if(match){
+        boolean b = hasRoles.stream().anyMatch(e -> urlNeedRoles.stream().anyMatch(f -> f.getAttribute().equals(e.getAuthority())));
+        if(b){
             return;
         }
-
         throw  new AccessDeniedException("权限不足");
     }
 

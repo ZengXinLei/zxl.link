@@ -56,10 +56,14 @@ public class ZxlMetadataSource implements FilterInvocationSecurityMetadataSource
         //获取权限角色中间表
         List<PermissionRole> permissionRoles = zPermissionRoleService.list(Wrappers.<PermissionRole>lambdaQuery()
                 .eq(PermissionRole::getPid, one.getId()));
+        if(permissionRoles.size()==0)
+            return null;
         List<java.lang.String> list = zRoleService.list(Wrappers.<Role>lambdaQuery()
                 .in(Role::getId, permissionRoles.stream().map(PermissionRole::getRid).collect(Collectors.toList()))).stream().map(Role::getName).collect(Collectors.toList());
 
 
+        if(list.size()==0)
+            return null;
         String[] roleNames = new String[list.size()];
         list.toArray(roleNames);
         //返回当前url所需需要的角色

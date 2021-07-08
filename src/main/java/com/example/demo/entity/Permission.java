@@ -59,6 +59,7 @@ public class Permission implements Serializable {
      */
     private Integer pageComponentId;
 
+    @TableField(exist = false)
     private List<Permission> children;
 
 
