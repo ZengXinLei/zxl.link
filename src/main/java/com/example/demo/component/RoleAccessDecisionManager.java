@@ -28,13 +28,13 @@ import java.util.stream.Collectors;
 @Component
 public class RoleAccessDecisionManager implements AccessDecisionManager {
 
-    @Bean
-    public RoleHierarchy roleHierarchy(){
-        RoleHierarchyImpl roleHierarchy = new RoleHierarchyImpl();
-        String hierarchy = "ROLE_DBA > ROLE_ADMIN \n ROLE_ADMIN > ROLE_USER";
-        roleHierarchy.setHierarchy(hierarchy);
-        return roleHierarchy;
-    }
+//    @Bean
+//    public RoleHierarchy roleHierarchy(){
+//        RoleHierarchyImpl roleHierarchy = new RoleHierarchyImpl();
+//        String hierarchy = "ROLE_DBA > ROLE_ADMIN \n ROLE_ADMIN > ROLE_USER";
+//        roleHierarchy.setHierarchy(hierarchy);
+//        return roleHierarchy;
+//    }
     /**
      * decide 方法是判定是否拥有权限的决策方法，
      *
@@ -45,8 +45,8 @@ public class RoleAccessDecisionManager implements AccessDecisionManager {
      * @throws InsufficientAuthenticationException
      */
 
-    @Autowired
-    RoleHierarchy roleHierarchy;
+//    @Autowired
+//    RoleHierarchy roleHierarchy;
 
     /**
      * @param authentication
