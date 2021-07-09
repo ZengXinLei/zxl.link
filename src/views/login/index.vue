@@ -60,6 +60,7 @@
 <script>
 import { validUsername } from '@/utils/validate'
 import { setToken, setUser } from '@/utils/auth'
+import Router from 'vue-router'
 
 export default {
   name: 'Login',
@@ -133,19 +134,98 @@ export default {
         ...this.loginForm
       })).then(res => {
 
-        return new Promise((resolve, reject) => {
-          setToken(res.data.token)
-          this.loading = false
+        setToken(res.data.token)
+        this.setRoutes()
 
-          this.$router.push('/')
-          resolve()
+      })
+    },
+
+    dfs2(data, hasPs) {
+
+      // if(!data)
+      //   return true
+      for (let i = 0; i < data.children.length; i++) {
+        if (!this.dfs2(data.children[i], hasPs)) {
+          data.children[i] = null
+        }
+
+        if (data && data.children[i] && data.children[i].type === 1) {
+          data.children[i] = null
+        }
+
+      }
+      data.meta = {
+        title: data.label,
+        icon: data.icon
+      }
+      data.name = data.label
+      data.path=data.value
+      if (data.pagecomponent) {
+        data.component = () => import(data.pagecomponent.value)
+      }
+      data.children = data.children.filter(e => e)
+      return !((!data.children || data.children.length === 0) && hasPs.filter(e => e === data.id).length === 0)
+
+    },
+    setRoutes() {
+      let hasPs = []
+      let data = []
+      this.$axios.post('/permission/permissionIdsByRole').then(res => {
+
+        hasPs = res.data.data
+        return this.$axios.post('/permission/list')
+      }).then(res => {
+        data = res.data.list
+
+        // data.forEach(e=>this.dfs1(e))
+        for (let i = 0; i < data.length; i++) {
+          this.dfs2(data[i], hasPs)
+          if (data[i].type === 1) {
+            data[i] = null
+          }
+
+        }
+        data = data.filter(e => e)
+
+        data.forEach(e => {
+          e.meta = {
+            title: e.label,
+            icon: e.icon
+          }
+          if (e.pagecomponent) {
+            e.component = () => import('@/layout')
+          }
+          e.path=e.value
         })
 
-      }).then(() => {
-        return this.$axios.post('/user/baseInfo')
+        let routes = [
+          // {
+          //   path: '/login',
+          //   component: () => import('@/views/login/index'),
+          //   hidden: true
+          // },
+          //
+          // {
+          //   path: '/404',
+          //   component: () => import('@/views/404'),
+          //   hidden: true
+          // }
+        ]
 
-      }).then(res => {
-        setUser(res.data.baseInfo)
+        data.forEach(e => routes.push(e))
+        routes.push({ path: '*', redirect: '/404', hidden: true })
+
+        let options = this.$router.options
+        options.routes = routes
+        let vueRouter = new Router(options)
+        this.$router=vueRouter
+        this.$router.matcher = vueRouter.matcher
+        // this.$router.matcher.addRoutes(data)
+        console.log(this.$router.options)
+
+        this.loading = false
+
+        this.$router.push('/')
       })
     }
   }

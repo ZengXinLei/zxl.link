@@ -1,6 +1,6 @@
 <template>
   <div class="dashboard-container">
-    <el-button @click="test"></el-button>
+<!--    <el-button @click="test"></el-button>-->
   </div>
 </template>
 
@@ -15,13 +15,8 @@ export default {
     ])
   },
   methods:{
-    test(){
-      this.$axios.post("/user/t").then(res=>{
-        // console.log(res)
-        // console.log(this.$router.options.routes)
 
-      })
-    }
+
   }
 }
 </script>
