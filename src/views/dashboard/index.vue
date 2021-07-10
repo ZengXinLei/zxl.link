@@ -1,6 +1,6 @@
 <template>
   <div class="dashboard-container">
-<!--    <el-button @click="test"></el-button>-->
+    <el-button ></el-button>
   </div>
 </template>
 

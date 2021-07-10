@@ -61,6 +61,7 @@
 import { validUsername } from '@/utils/validate'
 import { setToken, setUser } from '@/utils/auth'
 import Router from 'vue-router'
+import Layout from '@/layout'
 
 export default {
   name: 'Login',
@@ -167,6 +168,17 @@ export default {
       return !((!data.children || data.children.length === 0) && hasPs.filter(e => e === data.id).length === 0)
 
     },
+    dfs3(children,routes){
+
+      for (let i = 0; i < children.length; i++) {
+        let child=children[i]
+        let route={
+          component:()=>import(child.pagecomponent.value),
+          path:child.path,
+
+        }
+      }
+    },
     setRoutes() {
       let hasPs = []
       let data = []
@@ -193,39 +205,52 @@ export default {
             icon: e.icon
           }
           if (e.pagecomponent) {
-            e.component = () => import('@/layout')
+            e.component = {
+              ...() => import('@/layout')
+            }
           }
           e.path=e.value
         })
 
         let routes = [
-          // {
-          //   path: '/login',
-          //   component: () => import('@/views/login/index'),
-          //   hidden: true
-          // },
-          //
-          // {
-          //   path: '/404',
-          //   component: () => import('@/views/404'),
-          //   hidden: true
-          // }
+          {
+            path: '/login',
+            component: () => import('@/views/login/index'),
+            hidden: true
+          },
+
+          {
+            path: '/404',
+            component: () => import('@/views/404'),
+            hidden: true
+          },
+          {
+            path: '/',
+            component: ()=>import('@/layout'),
+            redirect: '/dashboard',
+            children: [{
+              path: 'dashboard',
+              name: 'Dashboard',
+              component: () => import('@/views/dashboard/index'),
+              meta: { title: 'Dashboard', icon: 'dashboard' }
+            }]
+          },
         ]
 
         data.forEach(e => routes.push(e))
         routes.push({ path: '*', redirect: '/404', hidden: true })
 
-        let options = this.$router.options
-        options.routes = routes
-        let vueRouter = new Router(options)
-        this.$router=vueRouter
+
+        let vueRouter = new Router(this.$router.options)
+        // this.$router=vueRouter
+        this.$router.options.routes=routes
         this.$router.matcher = vueRouter.matcher
-        // this.$router.matcher.addRoutes(data)
+        this.$router.addRoutes(routes)
         console.log(this.$router.options)
 
         this.loading = false
 
-        this.$router.push('/')
+        this.$router.push('/editor')
       })
     }
   }
