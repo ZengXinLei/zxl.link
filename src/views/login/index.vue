@@ -62,6 +62,7 @@ import { validUsername } from '@/utils/validate'
 import { setToken, setUser } from '@/utils/auth'
 import Router from 'vue-router'
 import Layout from '@/layout'
+import componentMaps from '@/utils/components'
 
 export default {
   name: 'Login',
@@ -143,26 +144,13 @@ export default {
 
     dfs2(data, hasPs) {
 
-      // if(!data)
-      //   return true
       for (let i = 0; i < data.children.length; i++) {
         if (!this.dfs2(data.children[i], hasPs)) {
           data.children[i] = null
         }
-
         if (data && data.children[i] && data.children[i].type === 1) {
           data.children[i] = null
         }
-
-      }
-      data.meta = {
-        title: data.label,
-        icon: data.icon
-      }
-      data.name = data.label
-      data.path=data.value
-      if (data.pagecomponent) {
-        data.component = () => import(data.pagecomponent.value)
       }
       data.children = data.children.filter(e => e)
       return !((!data.children || data.children.length === 0) && hasPs.filter(e => e === data.id).length === 0)
@@ -173,10 +161,20 @@ export default {
       for (let i = 0; i < children.length; i++) {
         let child=children[i]
         let route={
-          component:()=>import(child.pagecomponent.value),
-          path:child.path,
-
+          component:child.pagecomponent.value==="@/views/Editor/index"?componentMaps["@/views/Editor/index"]:()=>import(child.pagecomponent.value),
+          path:child.value,
+          meta:{
+            title:child.label,
+            icon:child.icon
+          }
         }
+
+        routes.push(route)
+        if(child.children.length!=0){
+          route.children=[]
+          this.dfs3(child.children,route.children)
+        }
+        // if(ch)
       }
     },
     setRoutes() {
@@ -199,18 +197,7 @@ export default {
         }
         data = data.filter(e => e)
 
-        data.forEach(e => {
-          e.meta = {
-            title: e.label,
-            icon: e.icon
-          }
-          if (e.pagecomponent) {
-            e.component = {
-              ...() => import('@/layout')
-            }
-          }
-          e.path=e.value
-        })
+
 
         let routes = [
           {
@@ -225,8 +212,19 @@ export default {
             hidden: true
           },
           {
+            path: '/editor',
+            component: Layout,
+            redirect: '/editor',
+            children: [{
+              path: '/editor',
+              name: '发布文章',
+              component: () => import('@/views/Editor/index'),
+              meta: { title: '发布文章', icon: 'xinwen' }
+            }]
+          },
+          {
             path: '/',
-            component: ()=>import('@/layout'),
+            component: Layout,
             redirect: '/dashboard',
             children: [{
               path: 'dashboard',
@@ -234,23 +232,46 @@ export default {
               component: () => import('@/views/dashboard/index'),
               meta: { title: 'Dashboard', icon: 'dashboard' }
             }]
-          },
+          }
         ]
 
-        data.forEach(e => routes.push(e))
+        data.forEach(e => {
+          e.component=()=>import("@/layout")
+          // routes.push(e)
+        })
+
+        data.forEach(e=>{
+          let route={
+            component:Layout,
+            path:e.value,
+            name:e.label,
+            meta:{
+              title:e.label,
+              icon:e.icon
+            }
+          }
+          route.children=[]
+          this.dfs3([e],route.children)
+          routes.push(route)
+        })
+
+        //
         routes.push({ path: '*', redirect: '/404', hidden: true })
 
+        console.log(routes)
 
         let vueRouter = new Router(this.$router.options)
-        // this.$router=vueRouter
         this.$router.options.routes=routes
         this.$router.matcher = vueRouter.matcher
         this.$router.addRoutes(routes)
+        this.$router.matcher = vueRouter.matcher
+
         console.log(this.$router.options)
+
 
         this.loading = false
 
-        this.$router.push('/editor')
+        this.$router.push('/')
       })
     }
   }
