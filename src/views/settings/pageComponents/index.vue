@@ -171,7 +171,7 @@ export default {
      */
     alter(id) {
 
-      this.pageComponent = this.list.filter(e => e.id = id)[0]
+      this.pageComponent = this.list.filter(e => e.id === id)[0]
       this.showAlterDialog = true
     },
 
