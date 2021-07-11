@@ -24,7 +24,9 @@ service.interceptors.request.use(
       // please modify it according to the actual situation
       config.headers.common['X-Token'] = getToken()
 
+      config.headers["X-Token"]=getToken()
     }
+
     // config.headers['Content-Type']='application/x-www-form-urlencoded'
     // console.log(config)
     return config
