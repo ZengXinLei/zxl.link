@@ -63,6 +63,7 @@ import { setToken, setUser } from '@/utils/auth'
 import Router from 'vue-router'
 import Layout from '@/layout'
 import componentMaps from '@/utils/components'
+import asyncRouytes from '@/router/asyncRoutes'
 
 export default {
   name: 'Login',
@@ -137,143 +138,14 @@ export default {
       })).then(res => {
 
         setToken(res.data.token)
-        this.setRoutes()
-
-      })
-    },
-
-    dfs2(data, hasPs) {
-
-      for (let i = 0; i < data.children.length; i++) {
-        if (!this.dfs2(data.children[i], hasPs)) {
-          data.children[i] = null
-        }
-        if (data && data.children[i] && data.children[i].type === 1) {
-          data.children[i] = null
-        }
-      }
-      data.children = data.children.filter(e => e)
-      return !((!data.children || data.children.length === 0) && hasPs.filter(e => e === data.id).length === 0)
-
-    },
-    dfs3(children,routes){
-
-      for (let i = 0; i < children.length; i++) {
-        let child=children[i]
-        let route={
-          component:child.pagecomponent.value==="@/views/Editor/index"?componentMaps["@/views/Editor/index"]:()=>import(child.pagecomponent.value),
-          path:child.value,
-          meta:{
-            title:child.label,
-            icon:child.icon
-          }
-        }
-
-        routes.push(route)
-        if(child.children.length!=0){
-          route.children=[]
-          this.dfs3(child.children,route.children)
-        }
-        // if(ch)
-      }
-    },
-    setRoutes() {
-      let hasPs = []
-      let data = []
-      this.$axios.post('/permission/permissionIdsByRole').then(res => {
-
-        hasPs = res.data.data
-        return this.$axios.post('/permission/list')
-      }).then(res => {
-        data = res.data.list
-
-        // data.forEach(e=>this.dfs1(e))
-        for (let i = 0; i < data.length; i++) {
-          this.dfs2(data[i], hasPs)
-          if (data[i].type === 1) {
-            data[i] = null
-          }
-
-        }
-        data = data.filter(e => e)
-
-
-
-        let routes = [
-          {
-            path: '/login',
-            component: () => import('@/views/login/index'),
-            hidden: true
-          },
-
-          {
-            path: '/404',
-            component: () => import('@/views/404'),
-            hidden: true
-          },
-          {
-            path: '/editor',
-            component: Layout,
-            redirect: '/editor',
-            children: [{
-              path: '/editor',
-              name: '发布文章',
-              component: () => import('@/views/Editor/index'),
-              meta: { title: '发布文章', icon: 'xinwen' }
-            }]
-          },
-          {
-            path: '/',
-            component: Layout,
-            redirect: '/dashboard',
-            children: [{
-              path: 'dashboard',
-              name: 'Dashboard',
-              component: () => import('@/views/dashboard/index'),
-              meta: { title: 'Dashboard', icon: 'dashboard' }
-            }]
-          }
-        ]
-
-        data.forEach(e => {
-          e.component=()=>import("@/layout")
-          // routes.push(e)
-        })
-
-        data.forEach(e=>{
-          let route={
-            component:Layout,
-            path:e.value,
-            name:e.label,
-            meta:{
-              title:e.label,
-              icon:e.icon
-            }
-          }
-          route.children=[]
-          this.dfs3([e],route.children)
-          routes.push(route)
-        })
-
-        //
-        routes.push({ path: '*', redirect: '/404', hidden: true })
-
-        console.log(routes)
-
-        let vueRouter = new Router(this.$router.options)
-        this.$router.options.routes=routes
-        this.$router.matcher = vueRouter.matcher
-        this.$router.addRoutes(routes)
-        this.$router.matcher = vueRouter.matcher
-
-        console.log(this.$router.options)
-
-
         this.loading = false
 
-        this.$router.push('/')
+        this.$router.push('/editor')
+
       })
-    }
+    },
+
+
   }
 }
 </script>

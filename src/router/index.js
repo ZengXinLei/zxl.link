@@ -44,17 +44,17 @@ export const constantRoutes = [
     hidden: true
   },
 
-  {
-    path: '/',
-    component: Layout,
-    redirect: '/dashboard',
-    children: [{
-      path: 'dashboard',
-      name: 'Dashboard',
-      component: () => import('@/views/dashboard/index'),
-      meta: { title: 'Dashboard', icon: 'dashboard' }
-    }]
-  },
+  // {
+  //   path: '/',
+  //   component: Layout,
+  //   redirect: '/dashboard',
+  //   children: [{
+  //     path: 'dashboard',
+  //     name: 'Dashboard',
+  //     component: () => import('@/views/dashboard/index'),
+  //     meta: { title: 'Dashboard', icon: 'dashboard' }
+  //   }]
+  // },
   {
     path: '/article',
     component: Layout,
@@ -66,17 +66,17 @@ export const constantRoutes = [
       meta: { title: '发布文章', icon: 'icon-map' }
     }]
   },
-  {
-    path: '/tags',
-    component: Layout,
-    // redirect: '/tags',
-    children: [{
-      path: 'tags',
-      name: '标签管理',
-      component: () => import('@/views/articleTags/index'),
-      meta: { title: '标签管理', icon: 'dashboard' }
-    }]
-  },
+  // {
+  //   path: '/tags',
+  //   component: Layout,
+  //   // redirect: '/tags',
+  //   children: [{
+  //     path: 'tags',
+  //     name: '标签管理',
+  //     component: () => import('@/views/articleTags/index'),
+  //     meta: { title: '标签管理', icon: 'dashboard' }
+  //   }]
+  // },
 
   {
     path: '/settings',
@@ -109,7 +109,6 @@ export const constantRoutes = [
 
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
-  // { path: '*', redirect: '/404', hidden: true }
 ]
 
 const createRouter = () => {

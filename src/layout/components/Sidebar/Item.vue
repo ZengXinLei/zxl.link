@@ -20,7 +20,7 @@ export default {
       if (icon.includes('el-icon')) {
         vnodes.push(<i class={[icon, 'sub-el-icon']} />)
       } else {
-        console.log(icon)
+        //console.log(icon)
         vnodes.push(<i class={[icon, 'iconfont', 'sub-el-icon']} />)
 
       }
