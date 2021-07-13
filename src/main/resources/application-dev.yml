@@ -17,6 +17,10 @@ logging:
   level:
     com.example.demo.mapper: debug
 
+
+
 #mybatis-plus:
 #  configuration:
 #    log-impl: org.apache.ibatis.logging.log4j.Log4jImpl
+mybatis-plus:
+  mapper-locations: classpath:com/example/demo/mapper/xml/*.xml

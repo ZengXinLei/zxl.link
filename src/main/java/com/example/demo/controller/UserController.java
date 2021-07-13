@@ -1,11 +1,17 @@
 package com.example.demo.controller;
 
 
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.example.demo.entity.Permission;
+import com.example.demo.entity.PermissionRole;
+import com.example.demo.entity.Role;
 import com.example.demo.entity.User;
 import com.example.demo.util.R;
 import org.apache.tomcat.util.http.parser.Authorization;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -13,8 +19,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.controller.BaseController;
 
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * <p>

@@ -76,6 +76,8 @@ public abstract class BaseController {
     protected int getUserId(){
         return getUser().getId();
     }
+
+
 //
 //    protected List<Long> getPermissionGroup(){
 //

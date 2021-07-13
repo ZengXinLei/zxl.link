@@ -4,9 +4,24 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.example.demo.entity.Pagecomponent">
-        <id column="id" property="id" />
-        <result column="label" property="label" />
-        <result column="value" property="value" />
+        <id column="id" property="id"/>
+        <result column="label" property="label"/>
+        <result column="value" property="value"/>
     </resultMap>
+    <select id="listByRoleId" resultType="java.lang.String">
+        SELECT value
+        FROM pagecomponent
+        where id in (SELECT DISTINCT(page_component_id)
+        from permission
+        where id in (SELECT p_r.pid
+        FROM permission_role as p_r
+        where p_r.rid in
+        <foreach collection="roleIds" item="roleIds" open="(" close=")" separator=",">
+            #{roleIds}
+        </foreach>
+        )
+        and type = 0)
+
+    </select>
 
 </mapper>

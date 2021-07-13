@@ -9,6 +9,7 @@ import com.example.demo.service.ZPagecomponentService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -27,5 +28,10 @@ public class PagecomponentServiceImpl extends ServiceImpl<PagecomponentMapper, P
         Page<Pagecomponent> objectPage = new Page<>(params.get("page"), params.get("limit"));
         IPage<Pagecomponent> page=baseMapper.selectPage(objectPage, Wrappers.<Pagecomponent>lambdaQuery());
         return page;
+    }
+
+    @Override
+    public List<String> listByRoleId(List<Integer> roleIds) {
+        return baseMapper.listByRoleId(roleIds);
     }
 }
