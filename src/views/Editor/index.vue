@@ -4,7 +4,7 @@
 
 
     <div class="top">
-      <el-input class="el-input" placeholder="标题">
+      <el-input class="el-input" placeholder="标题" v-model="dataForm.title">
         <template slot="append">0/100</template>
       </el-input>
       <el-button type="warning">保存草稿</el-button>
@@ -26,7 +26,7 @@
         <el-form-item label="文章标签：" prop="tags" style="margin: 0">
           <template>
             <span v-for="(tag3,index3) in dataForm.tags" class="checked-tags"
-            >{{ tags.filter(e => e.children.filter(f => f.id === tag3))[0].label }}
+            >{{tag3.label }}
               <i class="el-icon-close" @click="removeTag(tag3.id)"></i>
             </span>
             <el-popover
@@ -148,7 +148,7 @@
       </el-form>
       <span slot="footer">
         <el-button size="mini" type="info" @click="showDialog=false">取消</el-button>
-        <el-button size="mini" type="danger" @click="$refs.md.handleSave()">发布文章</el-button>
+        <el-button size="mini" :disabled="saving" type="danger" @click="$refs.md.handleSave()">发布文章</el-button>
 
       </span>
     </el-dialog>
@@ -159,7 +159,7 @@
 <script>
 
 import MarkdownPro from '@/components/markdown/pro'
-
+import {Base64} from "js-base64"
 export default {
   name: 'Editor',
   components: {
@@ -207,6 +207,7 @@ export default {
         }
       ],//文章类型
       dataForm: {
+        title:"",
         contentText:"",
         contentHtml:"",
         publishType:'1',//发布形式
@@ -214,6 +215,7 @@ export default {
         tags: [],//文章标签
         categories: [],//分类专栏
       },
+      saving:false,//是否正在发布文章
       dataFormRules: {
         tags:[
           { validator: tagsRule,trigger:'topBlur'}
@@ -373,18 +375,36 @@ export default {
      * @param content
      */
     saveMarkdown(content){
+      this.saving=true
       this.dataForm.contentHtml=content.html
       this.dataForm.contentText=content.value
       // console.log(content)
       // console.log("原始内容:"+content.value);
-      // console.log("转义后的内容:"+content.html);
-      this.$refs["dataForm"].validate((valid)=>{
-        if(valid){
-          console.log("成功")
-        }else {
-          return false
-        }
+
+      this.$axios.post("/article/saveMarkdown",{
+        ...this.dataForm
+      }).then(res=>{
+        this.$message({
+          message:"发布成功",
+          type:"success",
+          duration:1500,
+
+        })
+        this.$router.push("/")
       })
+      // this.$axios.get("https://gitee.com/api/v5/repos/Zxl99/img/contents/test/5").then(res=>{
+      //   console.log(Base64.decode(res.data.content).trim())
+      //
+      // })
+
+      // console.log("转义后的内容:"+content.html);
+      // this.$refs["dataForm"].validate((valid)=>{
+      //   if(valid){
+      //     console.log("成功")
+      //   }else {
+      //     return false
+      //   }
+      // })
     },
 
   }
