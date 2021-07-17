@@ -41,10 +41,15 @@ public class Article implements Serializable {
     /**
      * html内容
      */
+    @TableField(exist = false)
     private String contentHtml;
 
     /**
-     * 原内容
+     * https://gitee.com/api/v5/repos/:owner/:rep/contents/:path
+     */
+    private String contentUrl;
+    /**
+     * 一部分原内容
      */
     private String contentText;
 
