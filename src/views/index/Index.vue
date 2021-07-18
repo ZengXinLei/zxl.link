@@ -3,7 +3,14 @@
   <div id="wrap">
 
     <Header></Header>
-    <Main></Main>
+    <div class="main">
+      <router-view ></router-view>
+
+    </div>
+    <div class="sider">
+      <router-view name="sider"></router-view>
+
+    </div>
   </div>
 </template>
 
@@ -22,14 +29,42 @@ name: "Index",
   display: flex;
   flex-direction: row;
 }
+.main{
 
+  width: 62%;
+}
+.sider{
+  width: 22%;
+}
 @media all and (max-width: 768px) {
 
   #wrap{
     display: flex;
     flex-direction: column;
   }
+  .main{
+    width: 100%;
+    height: 70vh;
+  }
 
+  .sider{
+    display: none;
+  }
+}
+@media all and (max-width: 991px) {
+  .sider{
+    width: 30%;
+  }
+  .main{
+    width: 66%;
+  }
 
 }
+
+
+/*@media all and (max-width: 768px) {*/
+
+/*}*/
+
+
 </style>

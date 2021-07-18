@@ -2,7 +2,8 @@
   <div id="app">
 
 
-    <Index></Index>
+    <router-view></router-view>
+<!--    <Index></Index> -->
 
   </div>
 </template>

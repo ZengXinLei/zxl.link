@@ -9,13 +9,10 @@ Vue.config.productionTip = false
 
 
 
-const route=new VueRouter({
-  mode: 'history',
-  routes:router
-})
+
 Vue.use(ElementUI)
 Vue.use(VueRouter)
 new Vue({
   render: h => h(App),
-  route
+  router
 }).$mount('#app')

@@ -13,12 +13,8 @@ export default {
 
   .wrap{
     background: #000;
-    width: 62%;
+    width: 100%;
+
   }
-  @media all and (max-width: 768px) {
-    .wrap{
-      width: 100%;
-      height: 70vh;
-    }
-  }
+
 </style>
