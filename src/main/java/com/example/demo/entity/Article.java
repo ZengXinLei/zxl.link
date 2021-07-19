@@ -38,6 +38,12 @@ public class Article implements Serializable {
      */
     private String title;
 
+
+    /**
+     * md主题
+     */
+    private String theme;
+
     /**
      * html内容
      */
