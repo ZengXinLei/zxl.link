@@ -16,7 +16,7 @@
 
 <script>
 import Header from "@/views/header/Header";
-import Main from "@/views/main/Main";
+import Main from "@/views/article";
 export default {
 name: "Index",
   components: {Header,Main}
