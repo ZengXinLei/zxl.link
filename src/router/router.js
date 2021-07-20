@@ -7,9 +7,9 @@ const routes=[
     component:()=>import("@/views/index/Index"),
     children:[
       {
-        path:"list",
+        path:"article/**",
         components:{
-          default:()=>import("@/views/main/Main"),
+          default:()=>import("@/views/article/index"),
           sider:()=>import("@/views/sider/Sider")
         }
       }
