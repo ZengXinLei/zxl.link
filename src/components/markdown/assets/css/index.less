@@ -1,6 +1,7 @@
 @margin: 8px 0;
 @line-height: 22px;
 
+@import "~@/main.less";
 .markdown {
     overflow: hidden;
     position: relative;
@@ -755,11 +756,13 @@ ul.shift {
     h5,
     h6 {
         color: @title;
+        font-family: "Open Sans","Microsoft Jhenghei","Microsoft Yahei",sans-serif;
+
     }
 
     h1 {
         font-size: 28px;
-        border-bottom: 1px solid @border;
+        //border-bottom: 1px solid @border;
     }
 
     h2 {
