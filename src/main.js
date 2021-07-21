@@ -6,6 +6,7 @@ import VueRouter from 'vue-router'
 import router from "@/router/router";
 import request from '@/utils/request'
 import './permission'
+import "@/main.less"
 Vue.config.productionTip = false
 let qs=require("qs")
 
