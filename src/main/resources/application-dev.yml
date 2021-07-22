@@ -8,6 +8,10 @@ spring:
     password: root123
     url: jdbc:mysql://localhost:3306/zengblog?serverTimezone=UTC
     username: root
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
 
 
 file:
@@ -18,7 +22,11 @@ logging:
     com.example.demo.mapper: debug
 
 
-
+txy:
+  secretId: AKIDOcZGgrlOlrhGYZKo1xd2A1atvhCRP7Xh
+  secretKey: uZx4vUmnX0UheKjriIgofFYaLq40g5E6
+  table-name: blog-1258528840
+  region: ap-nanjing
 #mybatis-plus:
 #  configuration:
 #    log-impl: org.apache.ibatis.logging.log4j.Log4jImpl
