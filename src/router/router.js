@@ -5,7 +5,11 @@ const routes=[
   {
     path:"/**/index",
     component:()=>import("@/views/index/Index"),
-  }
+  },
+  {
+    path:"/**/index/**/article",
+    component:()=>import("@/views/article/index"),
+  },
 ]
 const router=new Router({
   mode:"history",
