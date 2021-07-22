@@ -1,6 +1,6 @@
 
 @import "~@/main.less";
-
+@max-width:940px;
 .banner{
   position: relative;
   width: 100%;
@@ -23,9 +23,10 @@ main{
   min-height: 60vh;
   .container{
 
+    position: relative;
     background-color: rgba(255,255,255,.9);
     width: 100%;
-    max-width: 1140px;
+    max-width: @max-width;
     padding: 0 20px 30px;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -33,6 +34,15 @@ main{
 
     .mainContent{
       width: 100%;
+    }
+    #sideCatalog-catalog{
+      position: fixed;
+      width: 240px;
+      max-height: 90vh;
+      min-height: 418px;
+      //background: #000;
+      top: 3px;
+      left: @max-width+20;
     }
   }
 }

@@ -9,9 +9,11 @@
     <main>
       <div class="container">
 
-        <div v-html="article.contentHtml"  :class="'mainContent markdown-preview markdown-theme-'+article.theme">
+        <div v-html="article.contentHtml" id="markdown" :class="'mainContent markdown-preview markdown-theme-mac'">
 
+          <h1>你能</h1>
         </div>
+        <div id="sideCatalog-catalog"></div>
       </div>
     </main>
 
@@ -28,6 +30,7 @@ export default Article
 <style lang="less" scoped>
 @import "index.less";
 
+@import "~@/components/AutocJS/css/autoc.css";
 
 @import "~@/components/markdown/assets/css/theme";
 @import "~@/components/markdown/assets/css/light";
