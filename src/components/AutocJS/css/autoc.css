@@ -9,7 +9,14 @@
     url('fonts/icomoon.woff?y21yht') format('woff'),
     url('fonts/icomoon.svg?y21yht#icomoon') format('svg');
 }
-
+@font-face {
+    font-family: 'Noto Sans SC';
+    src: url("~@/assets/woff2/NotoSansSC-6.ttf");
+}
+@font-face {
+    font-family: 'Microsoft Jhenghei';
+    src: url("~@/assets/woff2/Jhenghei.ttf");
+}
 [class*=" icon-"],
 [class^="icon-"] {
     /* Better Font Rendering =========== */
@@ -17,7 +24,7 @@
     -webkit-font-smoothing: antialiased;
 
     /* use !important to prevent issues with browser extensions that change fonts */
-    font-family: 'icomoon' !important;
+    /*font-family: 'icomoon' !important;*/
     font-style: normal;
     font-variant: normal;
     font-weight: normal;
@@ -223,7 +230,9 @@
     overflow: hidden;
     padding: 0 15px;
     text-overflow: ellipsis;
+    font-family: Merriweather,"Open Sans","Microsoft Jhenghei","Microsoft Yahei",sans-serif;
     white-space: nowrap;
+    font-weight: 700;
 }
 
 .outline-chapter-code {
@@ -245,3 +254,5 @@
 .outline-hidden {
     display: none;
 }
+
+

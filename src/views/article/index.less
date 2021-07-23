@@ -1,20 +1,58 @@
-
 @import "~@/main.less";
-@max-width:940px;
-.banner{
-  position: relative;
-  width: 100%;
-  height: 40vh;
-  background: url("https://blog-1258528840.cos.ap-nanjing.myqcloud.com/img/1626968375881.png") center center / cover no-repeat;
-  .mask {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.3);
 
+
+.main-header-content{
+  width: 80%;
+  z-index: 999;
+  text-align: center;
+
+  .article-title{
+
+    letter-spacing: -1px;
+    font-weight: 700;
+    color: #fff;
+    -webkit-animation: fade-in-down 1s;
+    animation: fade-in-down 1s both;
+    -webkit-animation-delay: .6s;
+    animation-delay: .5s;
+    text-shadow: 0 3px 6px rgb(0 0 0 / 30%);
   }
+  .article-info{
+    margin-top: -18px;
+    font-size: 16px;
+    font-weight: 700;
+    color: rgba(255,255,255,.8);
+    font-family: Noto Sans SC,serif;
+    text-shadow: 0 3px 6px rgb(0 0 0 / 50%);
+    i{
+      color: rgba(255,255,255,.8);
+    }
+  }
+  .article-tag{
+    background-color: #6fa3ef;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    border-radius: 3px;
+    text-transform: uppercase;
+    position: relative;
+    background-image: none;
+    box-shadow: none;
+    margin: 0 0 0 10px;
+    padding: 0 5px;
+    height: 22px;
+    line-height: 22px;
+    color: #fff;
+    width: fit-content;
+    width: -webkit-fit-content;
+  }
+
 }
+
 main{
+  position: relative;
   width: 100%;
   background: rgb(238, 238, 238);
   display: flex;
@@ -34,15 +72,14 @@ main{
 
     .mainContent{
       width: 100%;
+
     }
     #sideCatalog-catalog{
-      position: fixed;
+      position: absolute;
       width: 240px;
       max-height: 90vh;
       min-height: 418px;
-      //background: #000;
       top: 3px;
-      left: @max-width+20;
     }
   }
 }

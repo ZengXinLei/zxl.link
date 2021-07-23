@@ -2,19 +2,36 @@
 
   <div>
     <Header></Header>
-    <div class="banner">
+    <Banner :hasScrollDown="false" :height="'40vh'">
+      <div class="main-header-content">
+        <h1 class="article-title">{{article.title}}</h1>
+        <p class="article-info">
+          <!--            <span class="meta">-->
+          <i class="iconfont icon-time-line"></i>
+          发表于{{ new Date(article.time).toLocaleString().replace(/:\d{1,2}$/,' ') }}
+          <i class="iconfont icon-yanjing-tianchong"></i>
+          阅读：333
+          <i class="iconfont icon-pinglun"></i>
+          评论：0
+          <i class="iconfont icon-dianzan1"></i>
+          <!--            </span>-->
+        </p>
+        <router-link v-for="(category,key) in article.categories" :to="`/${$store.state.user.id}/index/${category.id}/category`">
+          <span class="article-tag">{{ category.label }}</span>
+        </router-link>
+      </div>
+    </Banner>
 
-      <div class="mask"></div>
-    </div>
     <main>
-      <div class="container">
+      <div id="container" class="container">
 
         <div v-html="article.contentHtml" id="markdown" :class="'mainContent markdown-preview markdown-theme-mac'">
 
           <h1>你能</h1>
         </div>
-        <div id="sideCatalog-catalog"></div>
       </div>
+      <div id="sideCatalog-catalog" ></div>
+
     </main>
 
   </div>
@@ -29,6 +46,7 @@ export default Article
 
 <style lang="less" scoped>
 @import "index.less";
+@import "~@/assets/alifont/iconfont.css";
 
 @import "~@/components/AutocJS/css/autoc.css";
 

@@ -1,53 +1,48 @@
-import Header from '@/views/header/Header'
+import Header from '@/components/header/Header'
 
 import AutocJs from '@/components/AutocJS/js/autoc'
+import Banner from '@/components/banner/banner'
+
 import {Base64} from 'js-base64'
 export default {
   name: 'index',
-  components: { Header },
+  components: { Banner, Header },
   data() {
 
     return {
       article: {
 
-      },
+
+      }
 
     }
 
   },
   mounted() {
+    window.onload=()=>{
+
+      // document.getElementById("sideCatalog-catalog").style.display="block"
+    }
+    window.onresize=window.onload=()=>{
+      this.setRightPos()
+    }
+    document.addEventListener('scroll', () => {
+
+
+      this.setTopPos()
+
+    }, true)
     this.getArticle()
   },
   methods: {
     getMenu(){
-
-      // let reg=/<h(\d).*?>(.*?)<\/h[\d]>/g
-      // let hs = this.article.contentHtml.match(reg)
-      // let title={
-      //   content:"",
-      //   level:0,
-      //   label:""
-      // }
-      // let menus=[]
-      // // console.log(reg.exec("<h2 id=\"得瑟得瑟\">得瑟得瑟</h2>"))
-      // hs.forEach(e=>{
-      //   reg.lastIndex=0
-      //   let arr=reg.exec(e)
-      //   menus.push({
-      //     content:arr[2],
-      //     level: Number(arr[1]),
-      //
-      //   })
-      // })
-      // 创建 Outline 实例
-
       let navigation = new AutocJs({
         // 文章正文 DOM 节点的 ID 选择器
         article: '#markdown',
         // 要收集的标题选择器
         selector: 'h1,h2,h3,h4,h5,h6',
         // 侧边栏导航的标题
-        title: '文章导读',
+        title: '目录',
         // 文章导读导航的位置
         // outside - 以侧边栏菜单形式显示（默认值）
         // inside - 在文章正文一开始的地方显示
@@ -78,7 +73,9 @@ export default {
         isGenerateHeadingChapterCode: true
       })
 
+      this.setRightPos()
 
+      this.setTopPos()
     },
     /**
      * 获取文章
@@ -103,13 +100,43 @@ export default {
         // this.article.contentHtml
         console.log(this.article)
         setTimeout(()=>{
+
           this.getMenu()
+
         },500)
-      })
-      this.$axios.get("https://blog-1258528840.cos.ap-nanjing.myqcloud.com/%E5%80%9F%E9%89%B4%E7%9A%84%E5%8D%9A%E5%AE%A2%E6%A0%B7%E5%BC%8F.txt").then(res=>{
-        console.log(res.data)
+
       })
 
+    },
+
+    /**
+     * 设置目录距离右边的位置
+     */
+    setRightPos(){
+      let nav=document.getElementById("sideCatalog-catalog")
+      let navW=nav.offsetWidth
+      let w = document.documentElement.offsetWidth
+      let contentW=document.getElementById("container").offsetWidth
+
+      console.log(navW)
+      let navToRight=(w-(w-contentW)/2-contentW-10-navW)<0?0:(w-(w-contentW)/2-contentW-10-navW)//目录距离窗口右边的距离
+      nav.style.right=navToRight+"px"
+    },
+    /**
+     * 设置目录距离上边的位置
+     */
+    setTopPos(){
+      let h = document.documentElement.scrollTop
+      if(h>=466){
+        document.getElementById("sideCatalog-catalog").style.position="fixed"
+        document.getElementById("sideCatalog-catalog").style.top="60px"
+
+      }else {
+        document.getElementById("sideCatalog-catalog").style.position="absolute"
+        document.getElementById("sideCatalog-catalog").style.top="3px"
+
+
+      }
     }
   }
 

@@ -234,7 +234,11 @@ class AutocJs {
         let elements = this.getElements()
         let anchorURL = this.get('anchorURL')
 
+        // console.log(chapters)
         headings.forEach((heading, i) => {
+            if(chapters[i].code.length===1){
+                chapters[i].code+=".0"
+            }
             let el = heading.node
             let icon = dom.createElement('i', {
                 className: 'icon icon-section outline-heading-icon'
@@ -251,17 +255,41 @@ class AutocJs {
             ])
             let code
 
+            let codes
             dom.addClass(el, 'outline-heading')
             el.id = heading.id
 
             if (this.get('isGenerateHeadingChapterCode')) {
-                code = dom.createElement('span', {
-                    className: 'outline-heading-code'
-                }, [
-                    chapters[i].code
-                ])
 
-                el.insertBefore(code, el.firstChild)
+                codes=chapters[i].code.split(".")
+                let span=dom.createElement('span', {
+                    className:"tagName"
+                }, [
+
+                ])
+                for (let j = 1; j <= codes.length; j++) {
+
+                    let text=dom.createElement("i",{},[
+                      codes[j-1]
+                    ])
+                    let b=dom.createElement('b',{
+                        className:j%2===0?"right":"left"
+                    },[text])
+                      span.appendChild(b)
+                    if (j!==codes.length){
+                        let splitChar=dom.createElement("span",{
+                            className:"splitChar"
+                        },["|"])
+                        span.appendChild(splitChar)
+                    }
+                }
+                // code = dom.createElement('span', {
+                //     className: 'outline-heading-code'
+                // }, [
+                //     chapters[i].code
+                // ])
+
+                el.insertBefore(span, el.firstChild)
             }
 
             if (this.get('isGenerateHeadingAnchor')) {
@@ -766,7 +794,7 @@ AutocJs.defaults = {
     // 要收集的标题选择器
     selector: 'h1,h2,h3,h4,h5,h6',
     // 侧边栏导航的标题
-    title: '文章导读',
+    title: '目录',
     // 文章导读导航的位置
     // outside - 以侧边栏菜单形式显示（默认值）
     // inside - 在文章正文一开始的地方显示
