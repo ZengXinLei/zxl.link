@@ -11,5 +11,28 @@
         <result column="content_text" property="contentText" />
         <result column="time" property="time" />
     </resultMap>
+    <select id="listByCategory" resultType="com.example.demo.entity.Article">
+        SELECT
+            article.id,
+            article.uid,
+            article.title,
+            article.content_url,
+            article.content_text,
+            article.time,
+            article.publish_type,
+            article.article_type,
+            article.theme
+        FROM
+            article
+        WHERE
+
+                article.id in (SELECT
+                                   article_category.aid
+                               FROM
+                                   article_category
+                               WHERE article_category.cid=#{param.cid}
+                    ) and article.uid=#{param.uid}
+    </select>
+
 
 </mapper>
