@@ -4,6 +4,7 @@ import AutocJs from '@/components/AutocJS/js/autoc'
 import Banner from '@/components/banner/banner'
 
 import {Base64} from 'js-base64'
+import eventListener from '@/store/modules/eventListener'
 export default {
   name: 'index',
   components: { Banner, Header },
@@ -26,12 +27,12 @@ export default {
     window.onresize=window.onload=()=>{
       this.setRightPos()
     }
-    document.addEventListener('scroll', () => {
-
-
-      this.setTopPos()
-
-    }, true)
+    let setTopPos=this.setTopPos
+    this.$store.commit("ADD_FUNC", {
+      type:'scroll',
+      func:setTopPos
+    })
+    document.addEventListener('scroll', setTopPos, true)
     this.getArticle()
   },
   methods: {

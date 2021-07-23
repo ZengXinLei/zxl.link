@@ -3,17 +3,13 @@
   <div>
 
     <Header></Header>
-    <div class="banner" id="banner">
-      <div class="mask"></div>
+    <Banner>
       <div class="page-header">
         <span class="h2">{{ user.signature_ }}</span>
         <span class="typed-cursor h2">_</span>
       </div>
-      <div class="scroll-down-bar" @click="scrollDown">
-        <i class="iconfont icon-xiangxia1"></i>
+    </Banner>
 
-      </div>
-    </div>
 
 
     <main>
@@ -22,9 +18,9 @@
         <div class="forFlow">
           <div v-if="dataList.records" v-for="(article,index) in dataList.records" class="article">
             <div class="title">
-              <a :href="$route.fullPath+'/'+article.id+'/article/'" class="title2">
+              <router-link :to="$route.fullPath+'/'+article.id+'/article/'" class="title2">
                 {{ article.title }}
-              </a>
+              </router-link>
 <!--              <span class="type">置顶</span>-->
             </div>
 
@@ -42,7 +38,7 @@
             <div class="desc">
 
               {{article.contentText}}
-              <a :href="$route.fullPath+'/'+article.id+'/article/'" class="readmore">阅读全文 »</a>
+              <router-link :to="$route.fullPath+'/'+article.id+'/article/'" class="readmore">阅读全文 »</router-link>
             </div>
           </div>
 
@@ -58,12 +54,14 @@
 
 <script>
 import {Page} from 'v-page'
-import Header from '@/views/header/Header'
+
+import Header from '@/components/header/Header'
+import Banner from '@/components/banner/banner'
 
 export default {
   name: 'Index',
 
-  components: { Header ,Page },
+  components: { Header ,Page,Banner },
   data() {
     return {
 
@@ -83,20 +81,22 @@ export default {
   },
   mounted() {
     //滑动监听
-    document.addEventListener('scroll', () => {
+    let func=()=>{
 
       let h = document.documentElement.scrollTop
       this.transform = `translate3d(0px, -${h / 700 * 80}px, 0px)`
-      // console.log(h)
-
-    }, true)
+    }
+    this.$store.commit("ADD_FUNC", {
+      type:'scroll',
+      func:func
+    })
+    document.addEventListener('scroll', func, true)
 
     for (let i = 0; i < this.user.signature.length; i++) {
       setTimeout(() => {
         let c = this.user.signature[i]
 
         this.user.signature_ += c
-        console.log(i)
       }, i * 150)
 
     }
@@ -104,26 +104,7 @@ export default {
 
   },
   methods: {
-    /**
-     * 点击banner的向下箭头滚动条滚动到1200位置
-     */
-    scrollDown: function() {
-      let h = document.documentElement.scrollTop
 
-      let speed = 1
-      let scrollTimer
-      scrollTimer = setInterval(() => {
-        h += speed
-        speed += 1
-        if (h > 1200) {
-          clearInterval(scrollTimer)
-
-        } else {
-          document.documentElement.scrollTop = h
-
-        }
-      }, 10)
-    },
 
     /**
      * 分页获取文章列表
