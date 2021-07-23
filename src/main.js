@@ -7,11 +7,13 @@ import router from "@/router/router";
 import request from '@/utils/request'
 import './permission'
 import "@/main.less"
+import store from '@/store/index'
 Vue.config.productionTip = false
 let qs=require("qs")
 
 Vue.prototype.$axios=request
 Vue.prototype.$qs=qs
+Vue.prototype.$store=store
 
 Vue.use(ElementUI)
 Vue.use(VueRouter)
