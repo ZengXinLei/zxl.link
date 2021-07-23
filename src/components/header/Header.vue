@@ -8,11 +8,11 @@
       <div class="collapse">
 
         <ul class="navbar-nav">
-          <li class="nav-item"><a href="/" class="nav-link"><i class="iconfont icon-pingtaiguanli"></i>首页</a></li>
-          <li class="nav-item"><a href="/" class="nav-link"><i class="iconfont icon-product-fill"></i>归档</a></li>
-          <li class="nav-item"><a href="/" class="nav-link"><i class="iconfont icon-all-fill"></i>分类</a></li>
-          <li class="nav-item"><a href="/" class="nav-link"><i class="iconfont icon-discount-fill"></i>标签</a></li>
-          <li class="nav-item"><a href="/" class="nav-link"><i class="iconfont icon-bussiness-man-fill"></i>关于</a></li>
+          <li class="nav-item"><router-link to="/" class="nav-link"><i class="iconfont icon-pingtaiguanli"></i>首页</router-link></li>
+          <li class="nav-item"><router-link to="/" class="nav-link"><i class="iconfont icon-product-fill"></i>归档</router-link></li>
+          <li class="nav-item"><router-link to="/" class="nav-link"><i class="iconfont icon-all-fill"></i>分类</router-link></li>
+          <li class="nav-item"><router-link to="/" class="nav-link"><i class="iconfont icon-discount-fill"></i>标签</router-link></li>
+          <li class="nav-item"><router-link to="/" class="nav-link"><i class="iconfont icon-bussiness-man-fill"></i>关于</router-link></li>
 
         </ul>
       </div>
