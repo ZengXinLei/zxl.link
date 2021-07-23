@@ -10,7 +10,7 @@
       <el-button type="warning">保存草稿</el-button>
       <el-button type="danger" @click="showDialog=true">发布文章</el-button>
     </div>
-    <MarkdownPro ref="md" @on-save="saveMarkdown" :height="markdownHeight"/>
+    <MarkdownPro @on-theme-change="e=>dataForm.theme=e" ref="md" @on-save="saveMarkdown" :height="markdownHeight"/>
 
 
     <el-dialog title="发布文章"
@@ -22,11 +22,11 @@
         type="warning"
         :closable="false"
       ></el-alert>
-      <el-form :model="dataForm" ref="dataForm" :rules="dataFormRules">
+      <el-form :model="dataForm" ref="dataForm">
         <el-form-item label="文章标签：" prop="tags" style="margin: 0">
           <template>
             <span v-for="(tag3,index3) in dataForm.tags" class="checked-tags"
-            >{{tag3.label }}
+            >{{ tag3.label }}
               <i class="el-icon-close" @click="removeTag(tag3.id)"></i>
             </span>
             <el-popover
@@ -129,13 +129,13 @@
         <el-form-item label="文章类型：" prop="articleType" style="margin-bottom: 10px">
           <template>
             <el-select v-model="dataForm.articleType" placeholder="请选择">
-                            <el-option
-                              v-for="item in articleTypes"
-                              :key="item.value"
-                              :label="item.label"
-                              :value="item.value"
-                            :disabled="item.disabled">
-                            </el-option>
+              <el-option
+                v-for="item in articleTypes"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+                :disabled="item.disabled">
+              </el-option>
             </el-select>
           </template>
         </el-form-item>
@@ -160,32 +160,14 @@
 
 import MarkdownPro from '@/components/markdown/pro'
 import {Base64} from "js-base64"
+
 export default {
   name: 'Editor',
   components: {
     MarkdownPro
   },
   data() {
-    let tagsRule=(rule,value,callback)=>{
-      if(value.length===0)
-        callback(new Error("请选择至少一个文章标签"))
-      else
-        callback()
-    }
-    let articleTypeRule=(rule,value,callback)=>{
 
-      if(value==='0')
-        callback(new Error("请选择文章类型"))
-      else
-        callback()
-    }
-
-    let categoriesRule=(rule,value,callback)=>{
-      if(value.length===0)
-        callback(new Error("请选择至少一个分类"))
-      else
-        callback()
-    }
     return {
       markdownHeight: 300,
       showDialog: false,//显示保存会话框
@@ -194,7 +176,7 @@ export default {
         {
           value: '0',
           label: '请选择',
-          disabled:true
+          disabled: true
         }, {
           value: '1',
           label: '原创'
@@ -207,26 +189,17 @@ export default {
         }
       ],//文章类型
       dataForm: {
-        title:"",
-        contentText:"",
-        contentHtml:"",
-        publishType:'1',//发布形式
+        title: "",
+        theme: 'light',//md主题
+        contentText: "",
+        contentHtml: "",
+        publishType: '1',//发布形式
         articleType: '0',//文章类型
         tags: [],//文章标签
         categories: [],//分类专栏
       },
-      saving:false,//是否正在发布文章
-      dataFormRules: {
-        tags:[
-          { validator: tagsRule,trigger:'topBlur'}
-        ],
-        articleType:[
-          { validator: articleTypeRule,trigger:'blur' }
-        ],
-        categories:[
-          { validator: categoriesRule,trigger:'blur' }
-        ]
-      },
+      saving: false,//是否正在发布文章
+
       //提交的数据
       tags: null,//所有标签
       tags2: null,//当前选中标签的子标签
@@ -374,12 +347,50 @@ export default {
      * 保存md
      * @param content
      */
-    saveMarkdown(content){
-      this.saving=true
-      this.dataForm.contentHtml=content.html
-      this.dataForm.contentText=content.value
-      // console.log(content)
-      // console.log("原始内容:"+content.value);
+    saveMarkdown(content) {
+      let article=this.dataForm
+      if(!article.title||article.title.length<5){
+        this.$message({
+          type:"warning",
+          message:"标不能少于5个字"
+        })
+        return
+      }
+      if(article.categories.length===0){
+        this.$message({
+          type:"warning",
+          message:"请选择至少一个分类"
+        })
+        return
+      }
+      if(article.tags.length===0){
+        this.$message({
+          type:"warning",
+          message:"请选择至少一个文章标签"
+        })
+        return
+      }
+      if(article.articleType==='0'){
+        this.$message({
+          type:"warning",
+          message:"请选择文章类型"
+        })
+        return
+      }
+      content.value = content.value.replace(/!\[image\]\((.*?)\)/g, "")
+        .replace(/###### /g, "(六)")
+        .replace(/##### /g, "(五)")
+        .replace(/#### /g, "(四)")
+        .replace(/### /g, "(三)")
+        .replace(/## /g, "(二)")
+        .replace(/# /g, "(一)")
+
+
+      this.saving = true
+      this.dataForm.contentHtml = content.html
+      this.dataForm.contentText = content.value.length >= 200 ? content.value.substring(0, 200) : content.value
+
+      console.log("原始内容:" + content.value);
 
       this.$axios.post("/article/saveMarkdown",{
         ...this.dataForm
@@ -392,19 +403,8 @@ export default {
         })
         this.$router.push("/")
       })
-      // this.$axios.get("https://gitee.com/api/v5/repos/Zxl99/img/contents/test/5").then(res=>{
-      //   console.log(Base64.decode(res.data.content).trim())
-      //
-      // })
+      // this.saving=false
 
-      // console.log("转义后的内容:"+content.html);
-      // this.$refs["dataForm"].validate((valid)=>{
-      //   if(valid){
-      //     console.log("成功")
-      //   }else {
-      //     return false
-      //   }
-      // })
     },
 
   }
