@@ -11,15 +11,12 @@ import com.qcloud.cos.auth.BasicCOSCredentials;
 import com.qcloud.cos.auth.COSCredentials;
 import com.qcloud.cos.http.HttpProtocol;
 import com.qcloud.cos.region.Region;
-import org.apache.catalina.security.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.List;
 import java.util.stream.Collectors;
 
 /**
@@ -57,6 +54,7 @@ public abstract class BaseController {
     RestTemplate restTemplate;
 
 
+
     @Autowired
     ZPermissionService zPermissionService;
     @Autowired
@@ -68,6 +66,9 @@ public abstract class BaseController {
     @Autowired
     TXYConfig txyConfig;
 
+
+    @Autowired
+    COSClient cosClient;
     @Bean
     public RestTemplate restTemplate() {
 
@@ -81,6 +82,7 @@ public abstract class BaseController {
 
         return restTemplate;
     }
+
 
     @Bean
     public COSClient cosClient() {

@@ -9,6 +9,7 @@ import com.qcloud.cos.model.PutObjectRequest;
 import com.qcloud.cos.model.PutObjectResult;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.IOUtils;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.web.bind.annotation.*;
 
 import org.springframework.web.multipart.MultipartFile;
@@ -29,6 +30,7 @@ import java.util.Map;
  * @author zxl
  * @since 2021-07-05
  */
+@Configuration
 @RestController
 @RequestMapping("/gitee")
 public class GiteeController extends BaseController {
@@ -54,7 +56,7 @@ public class GiteeController extends BaseController {
             File file = new File("E:/tmp."+fileType);
             content.transferTo(file);
             PutObjectRequest putObjectRequest = new PutObjectRequest(txyConfig.getTableName(), key, file);
-            cosClient().putObject(putObjectRequest);
+            cosClient.putObject(putObjectRequest);
 
             Map<String, Object> stringObjectMap = new HashMap<>();
             stringObjectMap.put("download_url", String.format("https://%s.cos.%s.myqcloud.com%s",txyConfig.getTableName(),txyConfig.getRegion(),key ));
