@@ -21,6 +21,8 @@
 </template>
 
 <script>
+import store from '@/store'
+
 export default {
   name: 'Header',
   data(){
@@ -30,7 +32,12 @@ export default {
   },
 
   mounted() {
-    document.addEventListener("scroll",()=>{
+    store.state.eventListener.forEach(e=>{
+      document.removeEventListener(e.type,e.func,true)
+    })
+
+    store.commit("CLEAR")
+    let func=()=>{
 
       let h=document.documentElement.scrollTop
       if(h>30){
@@ -40,7 +47,12 @@ export default {
         this.navClass=""
 
       }
-    },true)
+    }
+    this.$store.commit("ADD_FUNC", {
+      type:'scroll',
+      func:func
+    })
+    document.addEventListener("scroll",func,true)
   }
 }
 </script>

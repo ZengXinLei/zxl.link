@@ -10,10 +10,9 @@ router.beforeEach(((to, from, next) => {
   }
   store.commit("SET_ID",execArray[1])
 
-  store.state.eventListener.forEach(e=>{
-    document.removeEventListener(e.type,e.func)
-  })
-  console.log()
+
+
+  console.log(store.state.eventListener)
   let number = fullPath.search()
   next()
 }))
