@@ -62,7 +62,7 @@ public class Article implements Serializable {
     /**
      * 时间
      */
-    private Float time;
+    private Long time;
 
     /**
      * 发布形式 (1.公开,2.私密,3.好友可见）
