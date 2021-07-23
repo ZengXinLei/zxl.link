@@ -24,6 +24,8 @@ public class ZxlExceptionHandler {
         if(e instanceof org.springframework.security.access.AccessDeniedException)
             return R.error("不允许访问");
 
+        if(e instanceof org.springframework.web.multipart.MaxUploadSizeExceededException)
+            return R.error(e.getCause().getMessage());
         return R.error();
     }
 }
