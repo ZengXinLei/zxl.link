@@ -12,6 +12,11 @@ spring:
     multipart:
       max-file-size: 10MB
       max-request-size: 10MB
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    password:
+    timeout: 30000
 
 
 file:
@@ -32,3 +37,5 @@ txy:
 #    log-impl: org.apache.ibatis.logging.log4j.Log4jImpl
 mybatis-plus:
   mapper-locations: classpath:com/example/demo/mapper/xml/*.xml
+
+

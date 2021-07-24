@@ -5,6 +5,10 @@ import com.example.demo.config.TXYConfig;
 import com.example.demo.entity.Role;
 import com.example.demo.entity.User;
 import com.example.demo.service.*;
+import com.example.demo.util.RedisUtils;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.PropertyAccessor;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.qcloud.cos.COSClient;
 import com.qcloud.cos.ClientConfig;
 import com.qcloud.cos.auth.BasicCOSCredentials;
@@ -13,6 +17,10 @@ import com.qcloud.cos.http.HttpProtocol;
 import com.qcloud.cos.region.Region;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
+import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.client.RestTemplate;
@@ -54,7 +62,6 @@ public abstract class BaseController {
     RestTemplate restTemplate;
 
 
-
     @Autowired
     ZPermissionService zPermissionService;
     @Autowired
@@ -69,6 +76,11 @@ public abstract class BaseController {
 
     @Autowired
     COSClient cosClient;
+
+
+    @Autowired
+    RedisUtils redisUtils;
+
     @Bean
     public RestTemplate restTemplate() {
 
@@ -102,6 +114,8 @@ public abstract class BaseController {
         System.out.println(" cos 客户端初始化完成");
         return cosClient;
     }
+
+
 
     protected User getUser() {
         User user = null;

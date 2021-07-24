@@ -5,9 +5,11 @@ import com.example.demo.component.RoleAccessDecisionManager;
 import com.example.demo.component.ZxlMetadataSource;
 import com.example.demo.entity.User;
 import com.example.demo.filter.JWTAuthenticationFilter;
+import com.example.demo.filter.ValidateCodeFilter;
 import com.example.demo.service.ZUserService;
 import com.example.demo.service.impl.UserDetailsServiceImpl;
 import com.example.demo.util.R;
+import com.example.demo.util.RedisUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -25,6 +27,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -71,9 +74,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     ZxlMetadataSource zxlMetadataSource;
+    @Autowired
+    RedisUtils redisUtils;
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
+        http
+                .addFilterBefore(new ValidateCodeFilter(redisUtils), UsernamePasswordAuthenticationFilter.class).authorizeRequests()
+
                 .withObjectPostProcessor(new ObjectPostProcessor<FilterSecurityInterceptor>() {
                     @Override
                     public <O extends FilterSecurityInterceptor> O postProcess(O o) {

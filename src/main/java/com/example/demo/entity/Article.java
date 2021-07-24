@@ -83,4 +83,7 @@ public class Article implements Serializable {
     @TableField(exist = false)
     private List<Category> categories;
 
+    @TableField(exist = false)
+    private String userName;
+
 }
