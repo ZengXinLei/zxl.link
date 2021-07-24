@@ -167,6 +167,14 @@ export default {
       this.$axios.post('/role/list', {
         ...this.params
       }).then(res => {
+        if(res.data.code!==0)
+        {
+          this.$message({
+            type:"error",
+            message:res.data.msg
+          })
+          return
+        }
         this.total = res.data.data.total
 
         this.list = res.data.data.records
@@ -184,6 +192,14 @@ export default {
           this.$axios.post('/role/' + (isAdd ? 'save' : 'update'), {
             ...this.role
           }).then(() => {
+            if(res.data.code!==0)
+            {
+              this.$message({
+                type:"error",
+                message:res.data.msg
+              })
+              return
+            }
             this.init()
             this.role = {
               name: '',
@@ -209,7 +225,15 @@ export default {
      * @param id
      */
     remove(id) {
-      this.$axios.get('/role/remove?id=' + id).then(() => {
+      this.$axios.get('/role/remove?id=' + id).then((res) => {
+        if(res.data.code!==0)
+        {
+          this.$message({
+            type:"error",
+            message:res.data.msg
+          })
+          return
+        }
         this.init()
       })
     },
@@ -226,11 +250,27 @@ export default {
       this.currentRoleId=id
 
       this.$axios.post("/permission/list").then(res=>{
+        if(res.data.code!==0)
+        {
+          this.$message({
+            type:"error",
+            message:res.data.msg
+          })
+          return
+        }
         this.allPermissions=res.data.list
         return this.$axios.post("/permission/listByRoleId",this.$qs.stringify({
           rid:id
         }))
       }).then(res=>{
+        if(res.data.code!==0)
+        {
+          this.$message({
+            type:"error",
+            message:res.data.msg
+          })
+          return
+        }
 
         this.checkedKeys=res.data.data
         this.hasPByRole=res.data.data
@@ -240,7 +280,15 @@ export default {
       this.$axios.post("/permission/updateByRoleId",{
         rid:this.currentRoleId,
         pIds:this.checkedKeys
-      }).then(()=>{
+      }).then((res)=>{
+        if(res.data.code!==0)
+        {
+          this.$message({
+            type:"error",
+            message:res.data.msg
+          })
+          return
+        }
         this.showPermissionDialog=false
       })
     }

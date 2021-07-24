@@ -144,6 +144,14 @@ export default {
       this.$axios.post('/tag/list', {
         ...this.map
       }).then(res => {
+        if(res.data.code!==0)
+        {
+          this.$message({
+            type:"error",
+            message:res.data.msg
+          })
+          return
+        }
         this.list = res.data.list.records
 
       })
@@ -198,7 +206,15 @@ export default {
 
       this.$axios.post('/tag/save', {
         ...this.tag
-      }).then(() => {
+      }).then((res) => {
+        if(res.data.code!==0)
+        {
+          this.$message({
+            type:"error",
+            message:res.data.msg
+          })
+          return
+        }
         this.listByPage()
         this.dialogVisible = false
         this.tag['label'] = ''
@@ -223,8 +239,15 @@ export default {
       }
       this.$axios.post('/tag/remove', this.$qs.stringify({
         ids: ids.join(',')
-      })).then(() => {
-
+      })).then((res) => {
+        if(res.data.code!==0)
+        {
+          this.$message({
+            type:"error",
+            message:res.data.msg
+          })
+          return
+        }
         if (isP) {
           this.selectedPTags = []
         } else {

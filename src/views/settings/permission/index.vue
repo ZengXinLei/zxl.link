@@ -140,12 +140,28 @@ export default {
   methods:{
     init(){
       this.$axios.get("/permission/list").then(res=>{
+        if(res.data.code!==0)
+        {
+          this.$message({
+            type:"error",
+            message:res.data.msg
+          })
+          return
+        }
         this.list[0].children=res.data.list
       })
       this.$axios.post("/pagecomponent/list",{
         page:1,
         limit:999
       }).then(res=>{
+        if(res.data.code!==0)
+        {
+          this.$message({
+            type:"error",
+            message:res.data.msg
+          })
+          return
+        }
         this.pageComponents=res.data.data.records
       })
 
@@ -207,7 +223,15 @@ export default {
           }
           this.$axios.post("/permission/"+(this.isAdd?"save":"update"),{
             ...this.permission
-          }).then(()=>{
+          }).then((res)=>{
+            if(res.data.code!==0)
+            {
+              this.$message({
+                type:"error",
+                message:res.data.msg
+              })
+              return
+            }
             this.init()
           })
 
@@ -224,7 +248,15 @@ export default {
       }
       this.$axios.post("/permission/remove",{
         ...this.permission
-      }).then(()=>{
+      }).then((res)=>{
+        if(res.data.code!==0)
+        {
+          this.$message({
+            type:"error",
+            message:res.data.msg
+          })
+          return
+        }
         this.init()
       })
     },

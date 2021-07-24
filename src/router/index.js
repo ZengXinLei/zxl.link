@@ -39,10 +39,17 @@ export const constantRoutes = [
   },
 
   {
+    path: '/active',
+    component:()=>import('@/views/active/index'),
+    hidden: true
+  },
+
+  {
     path: '/404',
     component: () => import('@/views/404'),
     hidden: true
   },
+
 
   // {
   //   path: '/',

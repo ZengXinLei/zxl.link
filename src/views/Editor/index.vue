@@ -229,6 +229,14 @@ export default {
     init() {
       //获取分类专栏
       this.$axios.get('/category/list').then(res => {
+        if(res.data.code!==0)
+        {
+          this.$message({
+            type:"error",
+            message:res.data.msg
+          })
+          return
+        }
         this.categories = res.data.list
       })
       this.taglist()
@@ -241,6 +249,14 @@ export default {
       this.$axios.post('/tag/list', {
         ...this.pageMap
       }).then(res => {
+        if(res.data.code!==0)
+        {
+          this.$message({
+            type:"error",
+            message:res.data.msg
+          })
+          return
+        }
         this.tags = res.data.list.records
       })
     },
@@ -395,6 +411,14 @@ export default {
       this.$axios.post("/article/saveMarkdown",{
         ...this.dataForm
       }).then(res=>{
+        if(res.data.code!==0)
+        {
+          this.$message({
+            type:"error",
+            message:res.data.msg
+          })
+          return
+        }
         this.$message({
           message:"发布成功",
           type:"success",

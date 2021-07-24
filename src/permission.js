@@ -79,6 +79,11 @@ router.beforeEach(async(to, from, next) => {
                   component: () => import('@/views/404'),
                   hidden: true
                 },
+                {
+                  path: '/active',
+                  component:()=>import('@/views/active/index'),
+                  hidden: true
+                },
               ]
               routes.push(...data)
               routes.push({ path: '*', redirect: '/404', hidden: true })

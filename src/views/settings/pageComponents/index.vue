@@ -138,6 +138,14 @@ export default {
       this.$axios.post('/pagecomponent/list', {
         ...this.params
       }).then(res => {
+        if(res.data.code!==0)
+        {
+          this.$message({
+            type:"error",
+            message:res.data.msg
+          })
+          return
+        }
         this.total=res.data.data.total
 
         this.list = res.data.data.records
@@ -154,7 +162,15 @@ export default {
 
           this.$axios.post('/pagecomponent/' + (isAdd ? 'save' : 'update'), {
             ...this.pageComponent
-          }).then(() => {
+          }).then((res) => {
+            if(res.data.code!==0)
+            {
+              this.$message({
+                type:"error",
+                message:res.data.msg
+              })
+              return
+            }
             this.init()
             this.pageComponent = {
               label: '',
@@ -180,7 +196,15 @@ export default {
      * @param id
      */
     remove(id) {
-      this.$axios.get("/pagecomponent/remove?id="+id).then(()=>{
+      this.$axios.get("/pagecomponent/remove?id="+id).then((res)=>{
+        if(res.data.code!==0)
+        {
+          this.$message({
+            type:"error",
+            message:res.data.msg
+          })
+          return
+        }
         this.init()
       })
     }
