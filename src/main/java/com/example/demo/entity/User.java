@@ -44,6 +44,8 @@ public class User implements Serializable, UserDetails {
     private String password;
 
 
+    private String email;
+
 
     @TableField(exist = false)
     private List<Role> roleList;

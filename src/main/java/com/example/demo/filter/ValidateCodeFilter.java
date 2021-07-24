@@ -28,7 +28,7 @@ public class ValidateCodeFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
 
         String path = httpServletRequest.getServletPath();
-        if(path.startsWith("/login")){
+        if(path.startsWith("/login")||path.equals("/user/register")){
             String uuid = httpServletRequest.getParameter("uuid");
             String code=httpServletRequest.getParameter("code");
             String s = redisUtils.get(uuid);

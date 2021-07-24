@@ -22,8 +22,10 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.client.RestTemplate;
+import org.thymeleaf.TemplateEngine;
 
 import java.util.stream.Collectors;
 
@@ -81,6 +83,11 @@ public abstract class BaseController {
     @Autowired
     RedisUtils redisUtils;
 
+    @Autowired
+    TemplateEngine templateEngine;
+
+    @Autowired
+    JavaMailSender javaMailSender;
     @Bean
     public RestTemplate restTemplate() {
 

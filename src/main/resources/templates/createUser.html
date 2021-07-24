@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+
+        .wrap {
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+
+        }
+
+        .container {
+
+            width: 600px;
+            height: 500px;
+            /*background: #000;*/
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .header, .foot {
+            width: 100%;
+            height: 90px;
+            /*background:red;*/
+        }
+
+        .main {
+            width: 100%;
+            /*height: 100%;*/
+            display: flex;
+            box-sizing: border-box;
+            flex-direction: column;
+            justify-content: center;
+            padding: 0 20px;
+        }
+
+        .mian_content {
+            width: 100%;
+            /*height: 100%;*/
+            /*background: green;*/
+        }
+
+        .btn_wrap {
+            width: 90px;
+            height: 40px;
+            border-radius: 4px;
+            background-color: #312d2a;
+            box-sizing: border-box;
+            padding: 3px;
+            text-align: center;
+
+            padding: 10px 0;
+
+        }
+
+        .btn_wrap > a {
+            text-decoration: none;
+            color: #FFFFFF;
+
+        }
+    </style>
+</head>
+<body>
+
+<div class="wrap">
+    <div class="container">
+        <div class="header"></div>
+        <div class="main">
+            <div class="mian_content">
+                <p>您好, 我们收到了您在 Z博客网站 注册 <span th:text="${username}"></span> 帐户的要求</p>
+                <p style="display:flex;flex-direction: row">要完成此过程, 您必须激活您的帐户.
+                </p>
+                <p>
+                <div  class="btn_wrap">
+                    <a th:href="${url}">立即激活</a>
+                </div>
+                </p>
+                <p >另外, 您可以复制并粘贴网址到浏览器<a th:href="${url}" th:text="${url}"></a></p>
+                <p>
+                    如果您不打算注册或不是您注册的, 请忽略此消息.
+                </p>
+                <p>--</p>
+<!--                <p >这封电子邮件是由 麦克图床 https://macimg.com 发送</p>-->
+            </div>
+        </div>
+        <div class="foot"></div>
+    </div>
+</div>
+</body>
+</html>
