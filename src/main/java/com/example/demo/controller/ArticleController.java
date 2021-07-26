@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -20,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -102,7 +104,7 @@ public class ArticleController extends BaseController {
 //        Map content = (Map) save.get("content");
         article.setContentUrl(String.format("https://%s.cos.%s.myqcloud.com%s",txyConfig.getTableName(),txyConfig.getRegion(),key ));
         article.setUid(getUserId());
-        article.setTime(new Date().getTime());
+        article.setTime(new Date().getTime()/1000);
         zArticleService.save(article);
         zArticleTagService.saveBatch(article.getTags().stream().map(e -> {
 
@@ -164,6 +166,22 @@ public class ArticleController extends BaseController {
         Page<Article> data = zArticleService.listByCategory(page, map);
         return R.ok().put("data",data);
 
+    }
+
+    @RequestMapping("/archives")
+    public R archives(@RequestParam("uid") Integer uid){
+        String pattern = "yyyy-MM-dd";
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+
+        User user = getUser();
+        List<Map<String, Object>> maps = zArticleService.listMaps(
+                new QueryWrapper<Article>()
+                        .select("id,title,FROM_UNIXTIME(time/1000,'%Y年%m月') as time,FROM_UNIXTIME(time/1000,'%d日') as time1")
+                        .eq("uid",uid)
+                .eq(user==null,"publish_type",1)
+        );
+        Map<Object, List<Map<String, Object>>> time = maps.stream().collect(Collectors.groupingBy(e -> e.get("time")));
+        return R.ok().put("data",time);
     }
 }
 
