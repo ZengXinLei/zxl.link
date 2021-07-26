@@ -21,7 +21,8 @@
             article.time,
             article.publish_type,
             article.article_type,
-            article.theme
+            article.theme,
+            (SELECT user.`name` from user where id=article.uid) as userName
         FROM
             article
         WHERE

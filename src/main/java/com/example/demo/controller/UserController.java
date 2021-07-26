@@ -97,10 +97,7 @@ public class UserController extends BaseController {
         String s = UUID.randomUUID().toString();
         redisUtils.set(s,user,60*60*24*2);
 
-        sendEmail(user.getName(),s);
-
-
-        return R.ok().put("uuid",s);
+        return sendEmail(user.getName(),s);
 
     }
 
@@ -150,6 +147,7 @@ public class UserController extends BaseController {
 
         } catch (MessagingException e) {
             e.printStackTrace();
+            return R.error("发送邮件失败");
         }
 
         return R.ok();
