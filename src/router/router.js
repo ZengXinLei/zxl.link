@@ -15,8 +15,14 @@ const routes=[
   },
   {
     path:"/**/index/**/category",
+    name:"标签",
     component:()=>import("@/views/category/index.vue"),//补全后缀
   },
+  {
+    path:"/**/index/archives",
+    name:"归档",
+    component:()=>import("@/views/archives/index.vue"),//补全后缀
+  }
 ]
 const router=new Router({
   mode:"history",

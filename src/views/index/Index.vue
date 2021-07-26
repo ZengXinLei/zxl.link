@@ -42,7 +42,7 @@
             </div>
           </div>
 
-          <Page :total-row="dataList.total" @page-change="pageChange"></Page>
+          <Page v-if="dataList.total>dataForm.limit" :total-row="dataList.total" @page-change="pageChange"></Page>
         </div>
 
 
