@@ -4,9 +4,15 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.example.demo.entity.Category">
-        <id column="id" property="id" />
-        <result column="label" property="label" />
-        <result column="uid" property="uid" />
+        <id column="id" property="id"/>
+        <result column="label" property="label"/>
+        <result column="uid" property="uid"/>
     </resultMap>
+    <select id="listMap" resultType="java.util.Map">
+        select c.id, c.label, (SELECT count(*) from article_category as a WHERE a.cid = c.id GROUP BY a.cid) as count
+        from category as c
+        where c.uid=#{uid}
+        HAVING count is not null
+    </select>
 
 </mapper>
