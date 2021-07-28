@@ -27,7 +27,7 @@
 
         <div v-html="article.contentHtml" id="markdown" :class="'mainContent markdown-preview markdown-theme-mac'">
 
-          <h1>你能</h1>
+
         </div>
       </div>
       <div id="sideCatalog-catalog" ></div>

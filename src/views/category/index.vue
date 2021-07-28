@@ -27,10 +27,10 @@
 </template>
 
 <script>
-import category from './index'
+import category from './js/index'
 export default category
 </script>
 
 <style lang="less" scoped>
-@import "index.less";
+@import "./less/index.less";
 </style>
