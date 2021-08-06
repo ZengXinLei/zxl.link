@@ -1,10 +1,11 @@
 import Header from '@/components/header/Header'
 import Banner from '@/components/banner/banner'
 import da from 'element-ui/src/locale/lang/da'
+import Main from '@/components/main/index'
 
 export default {
   name: 'index',
-  components: { Banner, Header },
+  components: { Banner, Header,Main },
   data() {
     return {
 

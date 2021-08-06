@@ -3,11 +3,8 @@
   <div>
     <Header></Header>
     <Banner></Banner>
-    <main>
-      <div class="container">
 
-<!--        <h3>共计20篇文章</h3>-->
-        <div class="forFlow">
+    <Main>
 
           <div v-for="(list,key) in dataList" class="tl-wrap">
             <div :class="'tl-header  tl-style-'+key%7">{{list[0].time}}</div>
@@ -28,10 +25,8 @@
 
             </div>
           </div>
-        </div>
 
-      </div>
-    </main>
+    </Main>
   </div>
 </template>
 

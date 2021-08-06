@@ -3,9 +3,8 @@
   <div>
     <Header></Header>
     <Banner></Banner>
-    <div class="main">
-      <div class="container">
-        <div class="forFlow">
+<Main>
+<!--        <div class="forFlow">-->
           <div v-for="(article,key) in dataList.records" class="postList">
             <div class="postTitle">
               <router-link :to="`/${$store.state.user.id}/index/${article.id}/article`">{{article.title}}</router-link>
@@ -18,11 +17,9 @@
               <span>点赞:3</span>
             </div>
           </div>
-        </div>
+<!--        </div>-->
         <Page v-if="dataList.total>map.size" :total-row="dataList.total" @page-change="pageChange"></Page>
-      </div>
-
-    </div>
+</Main>
   </div>
 </template>
 

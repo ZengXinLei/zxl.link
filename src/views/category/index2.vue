@@ -2,29 +2,24 @@
   <div>
     <Header></Header>
     <Banner></Banner>
-    <div class="main">
-      <div class="container">
 
-
-        <div class="forFlow">
+    <Main>
           <router-link v-for="(value,key) in dataList" :to="`/${$store.state.user.id}/index/${value.id}/category`" :style="`color:rgb(255,100,${value.B});font-size:${value.size}px`">
             {{ value.label }}</router-link>
 
 
-        </div>
-      </div>
-
-    </div>
+    </Main>
   </div>
 </template>
 
 <script>
 import Header from '@/components/header/Header'
 import Banner from '@/components/banner/banner'
+import Main from '@/components/main/index'
 
 export default {
   name: 'index2',
-  components: { Banner, Header },
+  components: { Banner, Header,Main },
   data(){
     return{
       dataList:[]
@@ -73,29 +68,7 @@ export default {
 <style lang="less" scoped>
 @import "~@/main.less";
 
-.main {
-  position: relative;
-  width: 100%;
-  background: rgb(238, 238, 238);
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
 
-  .container {
-
-    position: relative;
-    background-color: rgba(255, 255, 255, .9);
-    width: 100%;
-    max-width: @max-width;
-
-    padding: 20px 30px;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    .forFlow{
       a{
         margin-left: 20px;
         color: rgb(255, 100, 100);
@@ -109,9 +82,4 @@ export default {
       }
 
 
-    }
-  }
-
-
-}
 </style>

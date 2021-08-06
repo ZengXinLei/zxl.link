@@ -1,9 +1,11 @@
 import Header from '@/components/header/Header'
 import Banner from '@/components/banner/banner'
 import {Page} from 'v-page'
+import Main from '@/components/main/index'
+
 export default {
   name: 'index',
-  components: { Banner, Header,Page },
+  components: { Banner, Header,Page,Main },
   data(){
     return{
       map:{//待提交的数据

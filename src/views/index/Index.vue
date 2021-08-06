@@ -12,19 +12,17 @@
 
 
 
-    <main>
-      <div class="container" :style="{'transform':transform}">
 
-        <div class="forFlow">
-          <div v-if="dataList.records" v-for="(article,index) in dataList.records" class="article">
-            <div class="title">
-              <router-link :to="$route.fullPath+'/'+article.id+'/article/'" class="title2">
-                {{ article.title }}
-              </router-link>
-<!--              <span class="type">置顶</span>-->
-            </div>
+    <Main :scrollWith="true">
+      <div v-if="dataList.records" v-for="(article,index) in dataList.records" class="article">
+        <div class="title">
+          <router-link :to="$route.fullPath+'/'+article.id+'/article/'" class="title2">
+            {{ article.title }}
+          </router-link>
+          <!--              <span class="type">置顶</span>-->
+        </div>
 
-            <span class="meta">
+        <span class="meta">
               <i class="iconfont icon-time-line"></i>
               发表于{{ new Date(article.time).toLocaleString().replace(/:\d{1,2}$/,' ') }}
               <i class="iconfont icon-yanjing-tianchong"></i>
@@ -35,20 +33,17 @@
             </span>
 
 
-            <div class="desc">
+        <div class="desc">
 
-              {{article.contentText}}
-              <router-link :to="$route.fullPath+'/'+article.id+'/article/'" class="readmore">阅读全文 »</router-link>
-            </div>
-          </div>
-
-          <Page v-if="dataList.total>dataForm.limit" :total-row="dataList.total" @page-change="pageChange"></Page>
+          {{article.contentText}}
+          <router-link :to="$route.fullPath+'/'+article.id+'/article/'" class="readmore">阅读全文 »</router-link>
         </div>
-
-
-
       </div>
-    </main>
+
+      <Page v-if="dataList.total>dataForm.limit" :total-row="dataList.total" @page-change="pageChange"></Page>
+    </Main>
+
+
   </div>
 </template>
 
@@ -57,11 +52,11 @@ import {Page} from 'v-page'
 
 import Header from '@/components/header/Header'
 import Banner from '@/components/banner/banner'
-
+import Main from '@/components/main/index'
 export default {
   name: 'Index',
 
-  components: { Header ,Page,Banner },
+  components: { Header ,Page,Banner ,Main},
   data() {
     return {
 
@@ -80,17 +75,7 @@ export default {
     }
   },
   mounted() {
-    //滑动监听
-    let func=()=>{
 
-      let h = document.documentElement.scrollTop
-      this.transform = `translate3d(0px, -${h / 700 * 80}px, 0px)`
-    }
-    this.$store.commit("ADD_FUNC", {
-      type:'scroll',
-      func:func
-    })
-    document.addEventListener('scroll', func, true)
 
     for (let i = 0; i < this.user.signature.length; i++) {
       setTimeout(() => {

@@ -3,21 +3,19 @@
   <div>
     <Header></Header>
     <Banner></Banner>
-    <main>
-      <div class="container">
-        <div class="forFlow"></div>
-      </div>
-    </main>
+
+    <Main></Main>
   </div>
 </template>
 
 <script>
 import Header from '@/components/header/Header'
 import Banner from '@/components/banner/banner'
+import Main from '@/components/main/index'
 
 export default {
   name: 'index',
-  components: { Banner, Header },
+  components: { Banner, Header ,Main},
   data(){
     return{
 
