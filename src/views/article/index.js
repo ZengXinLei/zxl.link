@@ -2,13 +2,12 @@ import Header from '@/components/header/Header'
 
 import AutocJs from '@/components/AutocJS/js/autoc'
 import Banner from '@/components/banner/banner'
-import Main from '@/components/main/index'
 
 import {Base64} from 'js-base64'
 import eventListener from '@/store/modules/eventListener'
 export default {
   name: 'index',
-  components: { Banner, Header ,Main},
+  components: { Banner, Header },
   data() {
 
     return {

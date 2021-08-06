@@ -22,7 +22,7 @@
       </div>
     </Banner>
 
-    <Main>
+    <main>
       <div id="container" class="container">
 
         <div v-html="article.contentHtml" id="markdown" :class="'mainContent markdown-preview markdown-theme-mac'">
@@ -32,7 +32,7 @@
       </div>
       <div id="sideCatalog-catalog" ></div>
 
-    </Main>
+    </main>
 
   </div>
 
