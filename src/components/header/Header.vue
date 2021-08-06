@@ -207,7 +207,8 @@ export default {
 @media screen and (max-width: 768px) {
 
   #navbar {
-
+    background: black;
+    opacity: 0.9;
     .container {
       display: flex;
       flex-direction: column;
