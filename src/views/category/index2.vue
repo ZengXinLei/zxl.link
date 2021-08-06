@@ -43,11 +43,11 @@ export default {
         let maxSize=35
         let minB=255
         let maxB=100
-        dataList.push({
-          id:3,
-          label:"SPring",
-          count:9
-        })
+        // dataList.push({
+        //   id:3,
+        //   label:"SPring",
+        //   count:9
+        // })
         let max=dataList.reduce((a,b)=>{
           return a.count>b.count?a:b
         })
