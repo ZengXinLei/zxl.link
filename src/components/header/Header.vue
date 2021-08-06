@@ -2,12 +2,17 @@
   <div id="navbar" :class="navClass">
 
     <div class="container">
-      <div>
+      <div class="banner">
         <a href="/" class="navbar-brand">
           &nbsp;<strong>曾大人</strong>&nbsp;
         </a>
+<!--        <input type="checkbox" id="toggle" ></input>-->
+<!--        <table for="toggle">-->
+          <i class="iconfont icon-menu-line" @click="showCol"></i>
+
+<!--        </table>-->
       </div>
-      <div class="collapse" aria-expanded="false">
+      <div class="collapse" :style="`height:${isClick?165:1}px`">
 
         <ul class="navbar-nav">
           <li class="nav-item">
@@ -49,7 +54,8 @@ export default {
   name: 'Header',
   data() {
     return {
-      navClass: ''
+      navClass: '',
+      isClick:false
     }
   },
 
@@ -74,6 +80,11 @@ export default {
       func: func
     })
     document.addEventListener('scroll', func, true)
+  },
+  methods:{
+    showCol(){
+      this.isClick=!this.isClick
+    }
   }
 }
 </script>
@@ -91,6 +102,7 @@ export default {
   //background: #2f4154;
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
   justify-content: center;
   //align-items: center;
 
@@ -108,6 +120,26 @@ export default {
     flex-direction: row;
     justify-content: space-between;
 
+    .banner{
+
+      i{
+        display: none;
+        color: @navbar-text-color;
+
+        width: 26px;
+        height: 26px;
+        line-height: 26px;
+        font-size: 0.875rem;
+        cursor: pointer;
+        &:hover {
+          color: @link-hover-color;
+
+
+        }
+
+        //&:hover ~
+      }
+    }
 
   }
 
@@ -175,20 +207,43 @@ export default {
 @media screen and (max-width: 768px) {
 
   #navbar {
+
     .container {
       display: flex;
       flex-direction: column;
       justify-content: start;
 
-      .collapse {
+      .banner{
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+
+        i{
+          display: block;
+          //margin-right: 30px;
+
+        }
+      }
+
+      .collapse{
         width: 100%;
 
-        height: 100px;
+        background: black;
+        opacity: 0.9;
+        height:0px;
         overflow: hidden;
+        transition: height 0.5s ease-in-out;
 
         .navbar-nav {
           display: flex;
           flex-direction: column;
+          padding: 0 20px;
+          margin: 0;
+          li{
+            margin-top: 10px;
+          }
 
         }
       }
