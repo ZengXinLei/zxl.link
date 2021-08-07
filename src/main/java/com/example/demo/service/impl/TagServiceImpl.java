@@ -9,6 +9,7 @@ import com.example.demo.service.ZTagService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -30,5 +31,11 @@ public class TagServiceImpl extends ServiceImpl<TagMapper, Tag> implements ZTagS
         );
         return page;
     }
+
+    @Override
+    public List<Tag> listByUid(Integer uid) {
+        return baseMapper.listByUid(uid);
+    }
+
 
 }

@@ -76,5 +76,12 @@ public class TagController extends BaseController {
         return R.ok("删除成功");
     }
 
+
+
+    @RequestMapping("listByUid")
+    public R listByUid(@RequestParam("uid") Integer uid){
+        List<Tag> tags = zTagService.listByUid(uid);
+        return R.ok().put("tag",tags);
+    }
 }
 

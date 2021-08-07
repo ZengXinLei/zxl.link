@@ -3,7 +3,9 @@ package com.example.demo.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.example.demo.entity.Tag;
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -18,4 +20,5 @@ public interface ZTagService extends IService<Tag> {
 
     public IPage<Tag> pageList(Map<String,Integer> map);
 
+    List<Tag> listByUid( Integer uid);
 }

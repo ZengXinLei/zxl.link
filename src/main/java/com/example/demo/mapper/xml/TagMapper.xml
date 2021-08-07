@@ -8,5 +8,21 @@
         <result column="parentId" property="parentId" />
         <result column="label" property="label" />
     </resultMap>
+    <select id="listByUid" resultType="com.example.demo.entity.Tag">
+        SELECT
+            t.id,
+            t.parentId,
+            t.label
+        FROM
+            tag AS t
+        WHERE
+                t.id IN (
+                SELECT
+                    ac.tid
+                FROM
+                    article_tag AS ac
+                WHERE
+                    ac.aid IN ( SELECT a.id FROM article AS a WHERE a.uid = #{uid} ))
+    </select>
 
 </mapper>
