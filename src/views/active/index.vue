@@ -1,5 +1,6 @@
 <template>
 
+  <div></div>
 </template>
 
 <script>
@@ -14,7 +15,8 @@ export default {
           type:"success"
 
         })
-        this.$router.push("/")
+        this.$router.push("/login")
+
       }else {
         this.$message({
           message:res.data.msg,
@@ -22,6 +24,7 @@ export default {
 
         })
         this.$router.push("/login")
+
       }
     })
     console.log();
