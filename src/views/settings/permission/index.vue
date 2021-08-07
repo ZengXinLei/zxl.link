@@ -38,7 +38,7 @@
 
             </template>
           </el-form-item>
-          <el-form-item v-if="permission.type===0" label="icon">
+          <el-form-item v-if="permission.type===0||permission.type===2" label="icon">
             <div style="width: 300px;display:flex;flex-direction: row;justify-content: space-between;align-items: center">
               <el-button @click="showIcons" type="warning" size="mini">选择icon</el-button>
               <span :class="'icon iconfont icon-'+permission.icon" style="font-size: 30px;border: #2db7f5 1px solid"></span>
@@ -221,6 +221,7 @@ export default {
           if(this.isAdd){
             this.permission.parentId=this.permission.id
           }
+
           this.$axios.post("/permission/"+(this.isAdd?"save":"update"),{
             ...this.permission
           }).then((res)=>{
@@ -238,6 +239,11 @@ export default {
         }
       })
     },
+
+
+    /**
+     * 删除节点
+     */
     remove(){
       if(this.permission.id===0){
         this.$message({

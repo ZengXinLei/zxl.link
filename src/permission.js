@@ -1,6 +1,8 @@
 import router from './router'
 import store from './store'
 import { Message } from 'element-ui'
+import Layout from '@/layout'
+
 import NProgress from 'nprogress' // progress bar
 import 'nprogress/nprogress.css' // progress bar style
 import { getToken } from '@/utils/auth' // get token from cookie
@@ -12,6 +14,7 @@ import request from '@/utils/request'
 NProgress.configure({ showSpinner: false }) // NProgress Configuration
 
 const whiteList = ['/login'] // no redirect whitelist
+const _import = require('./router/import-' + process.env.NODE_ENV)
 
 
 function dfs2(data, hasPs) {
@@ -25,7 +28,7 @@ function dfs2(data, hasPs) {
     data.children = data.children.filter(e => e)
   }
 
-  console.log(data.path)
+
   return !((!data.children || data.children.length === 0) && hasPs.filter(e => e === data.path).length === 0)
 
 }
@@ -53,19 +56,59 @@ router.beforeEach(async(to, from, next) => {
         next({ path: '/' })
         NProgress.done()
       } else {
-        const hasGetUserInfo = store.getters.name
+        // const hasGetUserInfo = store.getters.name
         if (getToken()) {
+          // debugger
           if(!router.options.isAddDynamicMenuRoutes)
           {
             setRoutes().then(res => {
-              let data = asyncRouytes
-              let hasPs = res.data.data
-              for (let i = 0; i < data.length; i++) {
-                let dfs = dfs2(data[i], hasPs)
-                if(data[i].children.length===0)
-                  data[i]=null
-              }
-              data = data.filter(e => e)
+              let data = res.data.data
+              let hasPs = data.filter(e=>e.parentId===0).map(e=>{
+                let obj={
+
+                  id:e.id,
+                  path:e.value,
+                  component:Layout,
+                  name:e.label,
+                  children:e.type===0?[{
+                    path: e.value,
+                    name:e.label,
+                    component: _import(e.pagecomponent.value),
+                    meta:{
+                      title:e.label,
+                      icon:'icon-'+e.icon
+                    }
+                  }]:[]
+                }
+                if(e.type!==0){
+                  obj['meta']={
+
+                      title:e.label,
+                      icon:'icon-'+e.icon
+
+                  }
+                }
+                return obj
+              })
+
+              hasPs.filter(e=>e.children.length===0).forEach(g=>{
+                g.children.push(...data.filter(f=>f.parentId===g.id).map(e=>{
+                  let obj={
+
+                    id:e.id,
+                    path:e.value,
+                    component:_import(e.pagecomponent.value),
+                    name:e.label,
+                    meta:{
+                      title:e.label,
+                      icon:'icon-'+e.icon
+                    }
+                  }
+                  return obj
+                }))
+              })
+              // console.log(hasPs)
+
 
               let routes=[
                 {
@@ -85,10 +128,15 @@ router.beforeEach(async(to, from, next) => {
                   hidden: true
                 },
               ]
-              routes.push(...data)
+              routes.push(...hasPs)
               routes.push({ path: '*', redirect: '/404', hidden: true })
+
+              // let path="Editor/list/index"
+              // routes[4].children[0].component=_import(path)
               console.log(routes)
+              //
               let vueRouter = new Router(router.options)
+
               router.options.routes=routes
               router.matcher = vueRouter.matcher
               router.addRoutes(routes)
