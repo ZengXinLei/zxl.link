@@ -84,27 +84,45 @@ public class ArticleController extends BaseController {
     public R saveMarkdown(@RequestBody Article article) throws IOException {
 
 
+        //把html写入文件
         InputStream inputStream = IOUtils.toInputStream(article.getContentHtml());
+        long time = new Date().getTime();
         int length = article.getContentHtml().length();
         byte[] bytes = new byte[length * 2];
         inputStream.read(bytes);
-        Gitee gitee = new Gitee();
-        gitee.setContent(Base64.encodeBase64String(bytes));
-        gitee.setPath("/article/" + new Date().getTime());
 
 
-        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter("E:/tmp"));
+
+        /* 写入临时文件 */
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter("E:/"+time+".html"));
         bufferedWriter.write(article.getContentHtml());
         bufferedWriter.close();
-        String key="/article/"+new Date().getTime();
-        cosClient.putObject(new PutObjectRequest(txyConfig.getTableName(),key,new File("E:/tmp")));
 
+
+        String htmlKey="/article/"+ time +".html";
+        cosClient.putObject(new PutObjectRequest(txyConfig.getTableName(),htmlKey,new File("E:/"+time+".html")));
+
+
+        inputStream = IOUtils.toInputStream(article.getContentText());
+        length = article.getContentHtml().length();
+        bytes = new byte[length * 2];
+        inputStream.read(bytes);
+
+
+        /* 写入临时文件 */
+        bufferedWriter = new BufferedWriter(new FileWriter("E:/"+time+".txt"));
+        bufferedWriter.write(article.getContentText());
+        bufferedWriter.close();
+
+        String txtKey="/article/"+ time +".txt";
+        cosClient.putObject(new PutObjectRequest(txyConfig.getTableName(),txtKey,new File("E:/"+time+".txt")));
 //        R save = GiteeUtil.save(zGiteeService, restTemplate, getUser(), gitee.getContent(), gitee.getPath());
 
 //        Map content = (Map) save.get("content");
-        article.setContentUrl(String.format("https://%s.cos.%s.myqcloud.com%s",txyConfig.getTableName(),txyConfig.getRegion(),key ));
+        article.setContentUrl(String.format("https://%s.cos.%s.myqcloud.com%s",txyConfig.getTableName(),txyConfig.getRegion(),htmlKey ));
+        article.setContentText(String.format("https://%s.cos.%s.myqcloud.com%s",txyConfig.getTableName(),txyConfig.getRegion(),txtKey ));
         article.setUid(getUserId());
-        article.setTime(new Date().getTime()/1000);
+        article.setTime(time /1000);
         zArticleService.save(article);
         zArticleTagService.saveBatch(article.getTags().stream().map(e -> {
 
