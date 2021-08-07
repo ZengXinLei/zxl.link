@@ -2,6 +2,7 @@ package com.example.demo.mapper;
 
 import com.example.demo.entity.Pagecomponent;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.example.demo.entity.Permission;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -18,5 +19,5 @@ import java.util.List;
 @Mapper
 public interface PagecomponentMapper extends BaseMapper<Pagecomponent> {
 
-    List<String> listByRoleId(@Param("roleIds") List<Integer> roleIds);
+    List<Permission> listByRoleId(@Param("roleIds") List<Integer> roleIds);
 }

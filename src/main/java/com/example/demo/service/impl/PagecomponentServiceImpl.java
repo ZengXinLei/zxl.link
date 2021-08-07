@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.demo.entity.Pagecomponent;
+import com.example.demo.entity.Permission;
 import com.example.demo.mapper.PagecomponentMapper;
 import com.example.demo.service.ZPagecomponentService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -31,7 +32,7 @@ public class PagecomponentServiceImpl extends ServiceImpl<PagecomponentMapper, P
     }
 
     @Override
-    public List<String> listByRoleId(List<Integer> roleIds) {
+    public List<Permission> listByRoleId(List<Integer> roleIds) {
         return baseMapper.listByRoleId(roleIds);
     }
 }

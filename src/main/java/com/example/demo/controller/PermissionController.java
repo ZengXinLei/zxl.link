@@ -3,6 +3,7 @@ package com.example.demo.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.example.demo.entity.Pagecomponent;
 import com.example.demo.entity.Permission;
 import com.example.demo.entity.PermissionRole;
 import com.example.demo.entity.Role;
@@ -67,9 +68,14 @@ public class PermissionController extends BaseController {
                         ).getId())
                 .collect(Collectors.toList());
 
-        List<String> collect = zPagecomponentService.listByRoleId(authorities);
+
+        List<Permission> collect = zPagecomponentService.listByRoleId(authorities);
 
 
+        collect.stream().forEach(e->{
+            Pagecomponent one = zPagecomponentService.getOne(Wrappers.<Pagecomponent>lambdaQuery().eq(Pagecomponent::getId, e.getPageComponentId()));
+            e.setPagecomponent(one);
+        });
 
         return R.ok().put("data", collect);
     }

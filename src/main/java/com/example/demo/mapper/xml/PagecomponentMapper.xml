@@ -8,19 +8,17 @@
         <result column="label" property="label"/>
         <result column="value" property="value"/>
     </resultMap>
-    <select id="listByRoleId" resultType="java.lang.String">
-        SELECT value
-        FROM pagecomponent
-        where id in (SELECT DISTINCT(page_component_id)
-        from permission
-        where id in (SELECT p_r.pid
-        FROM permission_role as p_r
-        where p_r.rid in
-        <foreach collection="roleIds" item="roleIds" open="(" close=")" separator=",">
+    <select id="listByRoleId" resultType="com.example.demo.entity.Permission">
+        SELECT * from permission as p
+        where p.id in (
+            SELECT pr.pid from permission_role as pr
+            where pr.rid in
+          <foreach collection="roleIds" item="roleIds" open="(" close=")" separator=",">
             #{roleIds}
-        </foreach>
-        )
-        and type = 0)
+          </foreach>
+            )
+          and p.type!=1
+
 
     </select>
 
