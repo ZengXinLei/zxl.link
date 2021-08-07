@@ -55,6 +55,12 @@
               </el-option>
             </el-select>
           </el-form-item>
+          <el-form-item  label="排序">
+            <template>
+              <el-input v-model="permission.sort" type="number" style="width: 300px" placeholder="排序等级：越小越前"></el-input>
+
+            </template>
+          </el-form-item>
           <el-form-item>
             <el-button size="mini" type="success" @click="submitForm">{{isAdd?"添加":"更改"}}</el-button>
             <el-popconfirm
@@ -138,6 +144,15 @@ export default {
     this.init()
   },
   methods:{
+    sort(arr){
+
+      arr.sort((a,b)=>a.sort-b.sort)
+      for (let i = 0; i < arr.length; i++) {
+        if(arr[i].children.length>0){
+          this.sort(arr[i].children)
+        }
+      }
+    },
     init(){
       this.$axios.get("/permission/list").then(res=>{
         if(res.data.code!==0)
@@ -148,6 +163,7 @@ export default {
           })
           return
         }
+        this.sort(res.data.list)
         this.list[0].children=res.data.list
       })
       this.$axios.post("/pagecomponent/list",{

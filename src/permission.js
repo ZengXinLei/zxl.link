@@ -13,31 +13,24 @@ import request from '@/utils/request'
 
 NProgress.configure({ showSpinner: false }) // NProgress Configuration
 
-const whiteList = ['/login'] // no redirect whitelist
+
 const _import = require('./router/import-' + process.env.NODE_ENV)
 
-
-function dfs2(data, hasPs) {
-
-  if(data.children){
-    for (let i = 0; i < data.children.length; i++) {
-      if (!dfs2(data.children[i], hasPs)) {
-        data.children[i] = null
-      }
-    }
-    data.children = data.children.filter(e => e)
-  }
-
-
-  return !((!data.children || data.children.length === 0) && hasPs.filter(e => e === data.path).length === 0)
-
-}
 
 function setRoutes() {
 
   return request.post('/permission/permissionIdsByRole')
 }
 
+function sort(arr){
+
+  arr.sort((a,b)=>a.sort-b.sort)
+  for (let i = 0; i < arr.length; i++) {
+    if(arr[i].children){
+      sort(arr[i].children)
+    }
+  }
+}
 router.beforeEach(async(to, from, next) => {
   // start progress bar
   NProgress.start()
@@ -70,9 +63,11 @@ router.beforeEach(async(to, from, next) => {
                   path:e.value,
                   component:Layout,
                   name:e.label,
+                  sort:e.sort,
                   children:e.type===0?[{
                     path: e.value,
                     name:e.label,
+                    sort:e.sort,
                     component: _import(e.pagecomponent.value),
                     meta:{
                       title:e.label,
@@ -97,6 +92,7 @@ router.beforeEach(async(to, from, next) => {
 
                     id:e.id,
                     path:e.value,
+                    sort:e.sort,
                     component:_import(e.pagecomponent.value),
                     name:e.label,
                     meta:{
@@ -109,6 +105,7 @@ router.beforeEach(async(to, from, next) => {
               })
               // console.log(hasPs)
 
+              sort(hasPs)
 
               let routes=[
                 {
