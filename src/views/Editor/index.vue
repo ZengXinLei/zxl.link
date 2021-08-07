@@ -10,7 +10,7 @@
       <el-button type="warning">保存草稿</el-button>
       <el-button type="danger" @click="showDialog=true">发布文章</el-button>
     </div>
-    <MarkdownPro @on-theme-change="e=>dataForm.theme=e" ref="md" @on-save="saveMarkdown" :height="markdownHeight"/>
+    <MarkdownPro v-model="dataForm.contentText" @on-theme-change="e=>dataForm.theme=e" ref="md" @on-save="saveMarkdown" :height="markdownHeight"/>
 
 
     <el-dialog title="发布文章"
@@ -393,20 +393,12 @@ export default {
         })
         return
       }
-      content.value = content.value.replace(/!\[image\]\((.*?)\)/g, "")
-        .replace(/###### /g, "(六)")
-        .replace(/##### /g, "(五)")
-        .replace(/#### /g, "(四)")
-        .replace(/### /g, "(三)")
-        .replace(/## /g, "(二)")
-        .replace(/# /g, "(一)")
+
 
 
       this.saving = true
       this.dataForm.contentHtml = content.html
-      this.dataForm.contentText = content.value.length >= 200 ? content.value.substring(0, 200) : content.value
 
-      console.log("原始内容:" + content.value);
 
       this.$axios.post("/article/saveMarkdown",{
         ...this.dataForm
