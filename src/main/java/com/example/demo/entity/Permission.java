@@ -49,6 +49,11 @@ public class Permission implements Serializable {
     private String icon;
 
     /**
+     * 排序（从小到大）
+     */
+    private Integer sort;
+
+    /**
      * 父级id
      */
     @TableField("parentId")
