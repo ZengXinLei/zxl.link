@@ -1,5 +1,5 @@
 <template>
-<div>
+<div style="padding:30px 20px">
   <el-table
     :data="list"
     v-loading="!list"
@@ -16,13 +16,15 @@
       label="标题"
     >
       <template slot-scope="scope">
-        <a :href="`http://localhost:8081/${scope.row.uid}/index/${scope.row.id}/article`">{{scope.row.title}}</a>
+        <a :href="`http://www.zxl.link/${scope.row.uid}/index/${scope.row.id}/article`">{{scope.row.title}}</a>
       </template>
     </el-table-column>
     <el-table-column
-      prop="value"
       label="时间"
     >
+      <template slot-scope="scope">
+        <span>{{new Date(scope.row.time*1000).toLocaleString().replace(/:\d{1,2}$/,' ')}}</span>
+      </template>
     </el-table-column>
     <el-table-column
       fixed="right"
@@ -40,13 +42,13 @@
             size="small"
             slot="reference"
           >
-            移除
+            删除
           </el-button>
         </el-popconfirm>
         <el-button
           type="success"
           size="small"
-          @click="alter(scope.row.id)"
+          @click="toUpdate(scope.row.id)"
         >
 
           修改
@@ -85,8 +87,9 @@ export default {
     /**
      * 当页面更改的时候
      */
-    handleCurrentChange(){
-
+    handleCurrentChange(val){
+      this.params.page=val
+      this.init()
     },
     /**
      * 删除文章
@@ -94,6 +97,28 @@ export default {
      */
     remove(id){
 
+      this.$axios.get("/article/remove?id="+id).then(res=>{
+        if(res.data.code!==0)
+        {
+          this.$message({
+            type:"error",
+            message:res.data.msg
+          })
+          return
+        }
+        this.$message({
+          type:"success",
+          message:"删除成功"
+        })
+        this.init()
+      })
+    },
+    /**
+     * 跳到修改文章页面
+     * @param id
+     */
+    toUpdate(id){
+      this.$router.push(`/article/editor?id=${id}`)
     },
     /**
      * 初始化列表
