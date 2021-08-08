@@ -76,7 +76,7 @@ import {setToken, getToken,setUser} from '@/utils/auth'
 import Router from 'vue-router'
 import Layout from '@/layout'
 import componentMaps from '@/utils/components'
-import asyncRouytes from '@/router/asyncRoutes'
+
 
 export default {
   name: 'Login',
@@ -195,7 +195,7 @@ export default {
             this.loading = false
 
             console.log(getToken())
-            this.$router.push('/editor')
+            this.$router.push('/article/editor')
         }
 
 
