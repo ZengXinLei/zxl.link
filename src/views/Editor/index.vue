@@ -229,37 +229,58 @@ export default {
     init() {
       //获取分类专栏
       this.$axios.get('/category/list').then(res => {
-        if(res.data.code!==0)
-        {
-          this.$message({
-            type:"error",
-            message:res.data.msg
-          })
-          return
-        }
-        this.categories = res.data.list
+        return new Promise((resolve, reject) => {
+          if(res.data.code!==0)
+          {
+            this.$message({
+              type:"error",
+              message:res.data.msg
+            })
+            reject()
+            return
+          }
+          this.categories = res.data.list
+          resolve()
+        })
       })
-      this.taglist()
-    },
-    /**
-     * 获取所有标签
-     */
-    taglist() {
-      console.log(this.pageMap)
-      this.$axios.post('/tag/list', {
-        ...this.pageMap
-      }).then(res => {
-        if(res.data.code!==0)
-        {
-          this.$message({
-            type:"error",
-            message:res.data.msg
+        //获取所有标签
+      .then(()=>{
+        return new Promise((resolve, reject) => {
+          this.$axios.post('/tag/list', {
+            ...this.pageMap
+          }).then(res => {
+            if(res.data.code!==0)
+            {
+              this.$message({
+                type:"error",
+                message:res.data.msg
+              })
+              reject()
+              return
+            }
+            this.tags = res.data.list.records
+            resolve()
           })
-          return
+        })
+      }).then(()=>{
+
+
+        let query=this.$route.query
+        if(query.id){
+          console.log(query)
+          this.$axios.get("/article/admin/getArticleById?id="+query.id).then(res=>{
+            // this.dataForm=res.data.article
+            this.$axios.get(res.data.article.contentText).then(text=>{
+              this.dataForm=res.data.article
+              this.dataForm.contentText=text.data
+            })
+          })
+
         }
-        this.tags = res.data.list.records
       })
+
     },
+
     /**
      * 选择一级标签
      * @param pId
@@ -324,7 +345,8 @@ export default {
      * @param e
      */
     checkedCategory(e) {
-      console.log(e)
+      // console.log(e)
+      console.log(this.dataForm)
     },
     /**
      * 添加分类专栏
