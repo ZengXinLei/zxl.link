@@ -62,17 +62,17 @@ export const constantRoutes = [
   //     meta: { title: 'Dashboard', icon: 'dashboard' }
   //   }]
   // },
-  {
-    path: '/article',
-    component: Layout,
-    redirect: '/editor',
-    children: [{
-      path: '/editor',
-      name: '发布文章',
-      component: () => import('@/views/Editor/index'),
-      meta: { title: '发布文章', icon: 'icon-map' }
-    }]
-  },
+  // {
+  //   path: '/article',
+  //   component: Layout,
+  //   redirect: '/editor',
+  //   children: [{
+  //     path: '/editor',
+  //     name: '发布文章',
+  //     component: () => import('@/views/Editor/index'),
+  //     meta: { title: '发布文章', icon: 'icon-map' }
+  //   }]
+  // },
   // {
   //   path: '/tags',
   //   component: Layout,
@@ -85,37 +85,37 @@ export const constantRoutes = [
   //   }]
   // },
 
-  {
-    path: '/settings',
-    component: Layout,
-    redirect: '/',
-    name: '系统设置',
-    meta: { title: '系统设置', icon: 'el-icon-s-help' },
-    children: [
-      {
-        path: '/permission',
-        name: '权限管理',
-        component: () => import('@/views/settings/permission/index'),
-        meta: { title: '权限管理', icon: 'table' }
-      },
-      {
-        path: '/pageComponent',
-        name: '页面组件管理',
-        component: () => import('@/views/settings/pageComponents/index'),
-        meta: { title: '页面组件管理', icon: 'tree' }
-      },
-      {
-        path: '/roles',
-        name: '角色管理',
-        component: () => import('@/views/settings/role/index'),
-        meta: { title: '角色管理', icon: 'tree' }
-      },
-    ]
-  },
+  // {
+  //   path: '/settings',
+  //   component: Layout,
+  //   redirect: '/',
+  //   name: '系统设置',
+  //   meta: { title: '系统设置', icon: 'el-icon-s-help' },
+  //   children: [
+  //     {
+  //       path: '/permission',
+  //       name: '权限管理',
+  //       component: () => import('@/views/settings/permission/index'),
+  //       meta: { title: '权限管理', icon: 'table' }
+  //     },
+  //     {
+  //       path: '/pageComponent',
+  //       name: '页面组件管理',
+  //       component: () => import('@/views/settings/pageComponents/index'),
+  //       meta: { title: '页面组件管理', icon: 'tree' }
+  //     },
+  //     {
+  //       path: '/roles',
+  //       name: '角色管理',
+  //       component: () => import('@/views/settings/role/index'),
+  //       meta: { title: '角色管理', icon: 'tree' }
+  //     },
+  //   ]
+  // },
 
 
   // 404 page must be placed at the end !!!
-  { path: '*', redirect: '/404', hidden: true }
+  // { path: '*', redirect: '/404', hidden: true }
 ]
 
 const createRouter = () => {

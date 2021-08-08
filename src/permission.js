@@ -7,7 +7,7 @@ import NProgress from 'nprogress' // progress bar
 import 'nprogress/nprogress.css' // progress bar style
 import { getToken } from '@/utils/auth' // get token from cookie
 import getPageTitle from '@/utils/get-page-title'
-import asyncRouytes from '@/router/asyncRoutes'
+
 import Router from 'vue-router'
 import request from '@/utils/request'
 
@@ -103,43 +103,23 @@ router.beforeEach(async(to, from, next) => {
                   return obj
                 }))
               })
-              // console.log(hasPs)
+
 
               sort(hasPs)
 
               let routes=[
-                {
-                  path: '/login',
-                  component: () => import('@/views/login/index'),
-                  hidden: true
-                },
 
-                {
-                  path: '/404',
-                  component: () => import('@/views/404'),
-                  hidden: true
-                },
-                {
-                  path: '/active',
-                  component:()=>import('@/views/active/index'),
-                  hidden: true
-                },
               ]
               routes.push(...hasPs)
               routes.push({ path: '*', redirect: '/404', hidden: true })
 
-              // let path="Editor/list/index"
-              // routes[4].children[0].component=_import(path)
-              console.log(routes)
-              //
-              let vueRouter = new Router(router.options)
-
-              router.options.routes=routes
-              router.matcher = vueRouter.matcher
+              router.options.routes.push(...routes)
               router.addRoutes(routes)
 
               router.options.isAddDynamicMenuRoutes=true
-              next()
+              console.log(router.options)
+
+              next({...to,replace: true}) //解决路由刷新失效问题
             })
 
           }else {
@@ -149,18 +129,7 @@ router.beforeEach(async(to, from, next) => {
         } else {
           next(`/login?redirect=${to.path}`)
 
-          // try {
-          //   // get user info
-          //   await store.dispatch('user/getInfo')
-          //
-          //   next()
-          // } catch (error) {
-          //   // remove token and go to login page to re-login
-          //   await store.dispatch('user/resetToken')
-          //   Message.error(error || 'Has Error')
-          //   next(`/login?redirect=${to.path}`)
-          //   NProgress.done()
-          // }
+
         }
       }
     } else {
