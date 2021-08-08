@@ -5,16 +5,18 @@
     <router-view></router-view>
 <!--    <Index></Index> -->
 
+    <Foot></Foot>
   </div>
 </template>
 
 <script>
 import Index from '@/views/index/Index'
-
+import Foot from '@/components/foot/index'
 export default {
   name: 'App',
   components: {
-    Index
+    Index,
+    Foot
   }
 }
 </script>
