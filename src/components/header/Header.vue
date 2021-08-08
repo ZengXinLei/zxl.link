@@ -26,20 +26,20 @@
             ></i>归档
             </router-link>
           </li>
-          <li class="nav-item">
-            <router-link :to="`/${$store.state.user.id}/index/tags`" class="nav-link"><i class="iconfont icon-all-fill"
-            ></i>分类
-            </router-link>
-          </li>
+<!--          <li class="nav-item">-->
+<!--            <router-link :to="`/${$store.state.user.id}/index/tags`" class="nav-link"><i class="iconfont icon-all-fill"-->
+<!--            ></i>分类-->
+<!--            </router-link>-->
+<!--          </li>-->
           <li class="nav-item">
             <router-link :to="`/${$store.state.user.id}/index/category`" class="nav-link"><i
                 class="iconfont icon-discount-fill"
             ></i>标签
             </router-link>
           </li>
-          <li class="nav-item">
-            <router-link to="/" class="nav-link"><i class="iconfont icon-bussiness-man-fill"></i>关于</router-link>
-          </li>
+<!--          <li class="nav-item">-->
+<!--            <router-link to="/" class="nav-link"><i class="iconfont icon-bussiness-man-fill"></i>关于</router-link>-->
+<!--          </li>-->
 
         </ul>
       </div>

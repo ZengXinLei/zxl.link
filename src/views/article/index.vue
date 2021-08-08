@@ -8,12 +8,12 @@
         <p class="article-info">
           <!--            <span class="meta">-->
           <i class="iconfont icon-time-line"></i>
-          发表于{{ new Date(article.time).toLocaleString().replace(/:\d{1,2}$/,' ') }}
-          <i class="iconfont icon-yanjing-tianchong"></i>
-          阅读：333
-          <i class="iconfont icon-pinglun"></i>
-          评论：0
-          <i class="iconfont icon-dianzan1"></i>
+          发表于{{ new Date(article.time*1000).toLocaleString().replace(/:\d{1,2}$/,' ') }}
+<!--          <i class="iconfont icon-yanjing-tianchong"></i>-->
+<!--          阅读：333-->
+<!--          <i class="iconfont icon-pinglun"></i>-->
+<!--          评论：0-->
+<!--          <i class="iconfont icon-dianzan1"></i>-->
           <!--            </span>-->
         </p>
         <router-link v-for="(category,key) in article.categories" :to="`/${$store.state.user.id}/index/${category.id}/category`">

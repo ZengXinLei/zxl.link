@@ -24,12 +24,12 @@
 
         <span class="meta">
               <i class="iconfont icon-time-line"></i>
-              发表于{{ new Date(article.time).toLocaleString().replace(/:\d{1,2}$/,' ') }}
-              <i class="iconfont icon-yanjing-tianchong"></i>
-              阅读：333
-              <i class="iconfont icon-pinglun"></i>
-              评论：0
-              <i class="iconfont icon-dianzan1"></i>
+              发表于{{ new Date(article.time*1000).toLocaleString().replace(/:\d{1,2}$/,' ') }}
+<!--              <i class="iconfont icon-yanjing-tianchong"></i>-->
+<!--              阅读：333-->
+<!--              <i class="iconfont icon-pinglun"></i>-->
+<!--              评论：0-->
+<!--              <i class="iconfont icon-dianzan1"></i>-->
             </span>
 
 
@@ -102,6 +102,18 @@ export default {
 
       this.$axios.post("/article/list",{ ...this.dataForm }).then(res=>{
         this.dataList=res.data.data
+        this.dataList.records.forEach(e=>{
+          this.$axios.get(e.contentText).then(text=>{
+            e.contentText=text.data.replace(/!\[image\]\((.*?)\)/g, "")
+              .replace(/###### /g, "(六)")
+              .replace(/##### /g, "(五)")
+              .replace(/#### /g, "(四)")
+              .replace(/### /g, "(三)")
+              .replace(/## /g, "(二)")
+              .replace(/# /g, "(一)")
+            e.contentText=e.contentText.length>=200?e.contentText.substring(0,200):e.contentText
+          })
+        })
       })
     },
     /**
