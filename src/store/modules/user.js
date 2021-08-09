@@ -5,7 +5,7 @@ import router, { resetRouter } from '@/router'
 const getDefaultState = () => {
   return {
     token: getToken(),
-    user:{}
+    info:{}
   }
 }
 
@@ -19,7 +19,7 @@ const mutations = {
     state.token = token
   },
   SET_USER:(state,user)=>{
-    state.user=user
+    state.info=user
   },
 
 }
@@ -49,8 +49,6 @@ const actions = {
         if (!data) {
           return reject('Verification failed, please Login again.')
         }
-
-
 
         commit('SET_USER', data.baseInfo)
         resolve(data)

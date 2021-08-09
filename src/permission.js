@@ -54,6 +54,8 @@ router.beforeEach(async(to, from, next) => {
           // debugger
           if(!router.options.isAddDynamicMenuRoutes)
           {
+            store.dispatch("user/getInfo")
+
             setRoutes().then(res => {
               let data = res.data.data
               let hasPs = data.filter(e=>e.parentId===0).map(e=>{
@@ -119,7 +121,6 @@ router.beforeEach(async(to, from, next) => {
               router.options.isAddDynamicMenuRoutes=true
               console.log(router.options)
               //存储用户持久化
-              store.dispatch("user/getInfo")
 
               next({...to,replace: true}) //解决路由刷新失效问题
             })
