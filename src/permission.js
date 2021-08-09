@@ -118,11 +118,12 @@ router.beforeEach(async(to, from, next) => {
 
               router.options.isAddDynamicMenuRoutes=true
               console.log(router.options)
+              //存储用户持久化
+              store.dispatch("user/getInfo")
 
               next({...to,replace: true}) //解决路由刷新失效问题
             })
 
-            store.dispatch("user/getInfo")
 
           }else {
             next()
