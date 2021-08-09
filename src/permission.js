@@ -122,6 +122,8 @@ router.beforeEach(async(to, from, next) => {
               next({...to,replace: true}) //解决路由刷新失效问题
             })
 
+            store.dispatch("user/getInfo")
+
           }else {
             next()
 
