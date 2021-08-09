@@ -80,13 +80,15 @@
   <el-dialog :visible.sync="iconDialog">
     <ul class="icon_lists dib-box">
       <li v-for="(icon,index) in icons" class="dib">
-        <el-popover
-          placement="top-start"
-          width="200"
-          trigger="hover"
-          :content="icon.name">
+<!--        <el-popover-->
+<!--          placement="top-start"-->
+<!--          width="200"-->
+<!--          trigger="hover"-->
+<!--          :content="icon.name">-->
         <span @click="permission.icon=icon.font_class" slot="reference" :class="'icon iconfont icon-'+icon.font_class" :style="icon.font_class===permission.icon?'color: #2db7f5;':''"></span>
-        </el-popover>
+        <span >{{icon.name}}</span>
+
+        <!--        </el-popover>-->
 
 <!--        <div class="name">-->
 <!--          {{icon}}-->
@@ -309,6 +311,8 @@ export default {
   text-align: center;
 
   line-height: 35px;
+  display: flex;
+  flex-direction: column;
 
 
 }
@@ -316,6 +320,9 @@ export default {
   cursor: pointer;
   font-size: 30px;
 
+}
+.icon_lists li span:nth-child(2){
+  font-size: 13px;
 }
 .icon_lists li span:hover{
   color: #2db7f5;
