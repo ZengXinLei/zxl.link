@@ -19,7 +19,7 @@
           </i>
           <span class="vicp-hint" v-show="loading !== 1">{{ lang.hint }}</span>
           <span class="vicp-no-supported-hint" v-show="!isSupported">{{ lang.noSupported }}</span>
-          <input type="file" v-show="false" v-if="step == 1" @change="handleChange" v-el:fileinput>
+          <input type="file" v-show="false" v-if="step == 1" @change="handleChange" ref="fileinput">
         </div>
         <div class="vicp-error" v-show="hasError">
           <i class="vicp-icon2"></i> {{ errorMsg }}
@@ -52,7 +52,7 @@
                    @mousemove="imgMove"
                    @mouseup="createImg"
                    @mouseout="createImg"
-                   v-el:img>
+                   ref="img">
               <div class="vicp-img-shade vicp-img-shade-1" :style="sourceImgShadeStyle"></div>
               <div class="vicp-img-shade vicp-img-shade-2" :style="sourceImgShadeStyle"></div>
             </div>
@@ -104,7 +104,7 @@
           <a @click="off" @mousedown="ripple">{{ lang.btn.close }}</a>
         </div>
       </div>
-      <canvas v-show="false" :width="width" :height="height" v-el:canvas></canvas>
+      <canvas v-show="false" :width="width" :height="height" ref="canvas"></canvas>
     </div>
   </div>
 </template>
@@ -434,10 +434,10 @@ export default {
     },
     handleClick(e) {
       if (this.loading !== 1) {
-        if (e.target !== this.$els.fileinput) {
+        if (e.target !== this.$refs.fileinput) {
           e.preventDefault();
-          if (document.activeElement !== this.$els) {
-            this.$els.fileinput.click();
+          if (document.activeElement !== this.$refs) {
+            this.$refs.fileinput.click();
           }
         }
       }
@@ -485,7 +485,7 @@ export default {
     },
     // 设置图片源
     setSourceImg(file) {
-      this.$dispatch('srcFileSet', file.name, file.type, file.size);
+      this.$emit('srcFileSet', file.name, file.type, file.size);
       let that = this,
         fr = new FileReader();
       fr.onload = function(e) {
@@ -619,7 +619,7 @@ export default {
         } = this,
         width = naturalHeight,
         height = naturalWidth,
-        canvas = this.$els.canvas,
+        canvas = this.$refs.canvas,
         ctx = canvas.getContext('2d');
       canvas.width = width;
       canvas.height = height;
@@ -764,7 +764,7 @@ export default {
             scale
           }
         } = that,
-        canvas = that.$els.canvas,
+        canvas = that.$refs.canvas,
         ctx = canvas.getContext('2d');
       if (e) {
         // 取消鼠标按下移动状态
@@ -793,7 +793,7 @@ export default {
         field,
         ki
       } = this;
-      this.$dispatch('cropSuccess', createImgUrl, field, ki);
+      this.$emit('cropSuccess', createImgUrl, field, ki);
       if(typeof url == 'string' && url){
         this.upload();
       }else{
@@ -863,7 +863,7 @@ export default {
         function(resData) {
           if (that.value) {
             that.loading = 2;
-            that.$dispatch('cropUploadSuccess', resData, field, ki);
+            that.$emit('cropUploadSuccess', resData, field, ki);
           }
 
         },
@@ -873,7 +873,7 @@ export default {
             that.loading = 3;
             that.hasError = true;
             that.errorMsg = lang.fail;
-            that.$dispatch('cropUploadFail', sts, field, ki);
+            that.$emit('cropUploadFail', sts, field, ki);
           }
         }
       );
