@@ -172,6 +172,45 @@ export default {
       //   }
       // })
       this.loading = true
+      if(this.isRegister){
+        let mailReg=/^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/
+        if(!mailReg.test(this.loginForm.email)){
+          this.$message({
+            type:"error",
+            message:"请输入正确的邮箱"
+          })
+          this.loading = false
+
+          return
+        }
+        if(this.loginForm.name.length<3){
+          this.$message({
+            type:"error",
+            message:"用户名不能少于3个字符"
+          })
+          this.loading = false
+
+          return
+        }
+        if(this.loginForm.name.length>5){
+          this.$message({
+            type:"error",
+            message:"用户名不能超过5个字符"
+          })
+          this.loading = false
+
+          return
+        }
+        if(this.loginForm.password.length>12||this.loginForm.password.length<6){
+          this.$message({
+            type:"error",
+            message:"密码不能少于6个字符，超过12个字符"
+          })
+          this.loading = false
+
+          return
+        }
+      }
       this.$axios.post(this.isRegister ? '/user/register' : '/login', this.$qs.stringify({
 
         ...this.loginForm
