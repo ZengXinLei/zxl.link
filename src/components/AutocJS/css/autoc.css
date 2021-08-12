@@ -123,6 +123,7 @@
 }
 
 .outline-outside-header {
+    display: none;
     height: 40px;
     left: 0;
     overflow: hidden;
@@ -146,7 +147,7 @@
     box-sizing: border-box;
     height: 100%;
     overflow: hidden;
-    padding: 40px 0 0;
+    padding: 5px 0 0;
     position: relative;
     z-index: 1;
 }
