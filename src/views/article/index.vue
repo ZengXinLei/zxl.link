@@ -30,7 +30,15 @@
 
         </div>
       </div>
-      <div id="sideCatalog-catalog" ></div>
+      <div v-if="showCatalogue" id="sideCatalog-catalog-wrap">
+        <div @click="showOrDisplay" class="switch">
+          <i class="icon iconfont icon-caidan"></i>
+        </div>
+
+        <div ref="switch"  id="sideCatalog-catalog" >
+        </div>
+      </div>
+
 
     </main>
 

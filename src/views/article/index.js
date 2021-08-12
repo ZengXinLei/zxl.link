@@ -14,8 +14,10 @@ export default {
       article: {
 
 
-      }
+      },
+      showCatalogue:true,//是否显示文章目录
 
+      clickCount:0
     }
 
   },
@@ -74,9 +76,14 @@ export default {
         isGenerateHeadingChapterCode: true
       })
 
-      this.setRightPos()
 
-      this.setTopPos()
+      if(document.getElementsByClassName('outline-chapter').length===0){
+        this.showCatalogue=false
+      }else {
+        this.setRightPos()
+
+        this.setTopPos()
+      }
     },
     /**
      * 获取文章
@@ -114,13 +121,13 @@ export default {
      * 设置目录距离右边的位置
      */
     setRightPos(){
-      let nav=document.getElementById("sideCatalog-catalog")
+      let nav=document.getElementById("sideCatalog-catalog-wrap")
       let navW=nav.offsetWidth
       let w = document.documentElement.offsetWidth
       let contentW=document.getElementById("container").offsetWidth
 
       console.log(navW)
-      let navToRight=(w-(w-contentW)/2-contentW-10-navW)<0?0:(w-(w-contentW)/2-contentW-10-navW)//目录距离窗口右边的距离
+      let navToRight=(w-(w-contentW)/2-contentW-10-navW)<1?1:(w-(w-contentW)/2-contentW-10-navW)//目录距离窗口右边的距离
       nav.style.right=navToRight+"px"
     },
     /**
@@ -129,15 +136,32 @@ export default {
     setTopPos(){
       let h = document.documentElement.scrollTop
       if(h>=466){
-        document.getElementById("sideCatalog-catalog").style.position="fixed"
-        document.getElementById("sideCatalog-catalog").style.top="60px"
+        document.getElementById("sideCatalog-catalog-wrap").style.position="fixed"
+        document.getElementById("sideCatalog-catalog-wrap").style.top="60px"
 
       }else {
-        document.getElementById("sideCatalog-catalog").style.position="absolute"
-        document.getElementById("sideCatalog-catalog").style.top="3px"
+        document.getElementById("sideCatalog-catalog-wrap").style.position="absolute"
+        document.getElementById("sideCatalog-catalog-wrap").style.top="3px"
 
 
       }
+    },
+    /**
+     * 关闭还是打开文章目录
+     */
+    showOrDisplay(){
+
+      let menu = this.$refs.switch
+      console.log(menu.style.display)
+      if(this.clickCount%2===1){
+        console.log("打开")
+        menu.style.display="block"
+
+      }else {
+        menu.style.display="none"
+
+      }
+      this.clickCount++
     }
   }
 

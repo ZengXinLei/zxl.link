@@ -74,13 +74,41 @@ main{
       width: 100%;
 
     }
-    #sideCatalog-catalog{
+
+  }
+  #sideCatalog-catalog-wrap{
+    position: absolute;
+    top: 3px;
+    width: 240px;
+    .switch{
       position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 20px;
+      height: 20px;
+      background: #fff;
+      color: gray;
+      z-index: 111;
+      cursor: pointer;
+    }
+    #sideCatalog-catalog{
+      display: block;
+      transition: all 0.5s ease-in-out;
+      position: absolute;
+
       width: 240px;
       max-height: 90vh;
       min-height: 418px;
-      top: 3px;
+
     }
   }
-}
 
+}
+@media screen and (min-width: 1460px) {
+  .switch{
+display: none;
+  }
+  #sideCatalog-catalog{
+    display: none;
+  }
+}
