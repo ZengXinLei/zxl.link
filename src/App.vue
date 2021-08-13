@@ -5,7 +5,7 @@
     <router-view></router-view>
 <!--    <Index></Index> -->
 
-    <Foot></Foot>
+    <Foot v-if="exclude.filter(e=>e.test($route.path)).length===0"></Foot>
   </div>
 </template>
 
@@ -14,6 +14,14 @@ import Index from '@/views/index/Index'
 import Foot from '@/components/foot/index'
 export default {
   name: 'App',
+  data(){
+    return{
+      exclude:[
+        /index\/.*?\/article/g
+
+      ]
+    }
+  },
   components: {
     Index,
     Foot

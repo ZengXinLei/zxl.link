@@ -29,6 +29,26 @@
 
 
         </div>
+        <div class="bottom-comment">
+          <h3 class="title">73评论</h3>
+          <div class="comment-send">
+            <div class="user-face">
+              <img :src="$store.state.user.user.avatar" alt="" class="user-head">
+
+            </div>
+            <div class="textarea-container">
+              <textarea v-model="comment.text" cols="80" name="msg" rows="5" placeholder="发一条友善的评论" class="ipt-txt"></textarea>
+
+              <div ref="tip"  class="comment-submit">
+                <div v-if="showTip" class="comment-submit-tip">评论成功</div>
+                <button type="submit"  @click="commentSubmit">
+                  发表评论</button>
+              </div>
+
+            </div>
+          </div>
+          <emoji-icon @select="selectEmoji" class="emoji" :iconConfig="iconConfig"></emoji-icon>
+        </div>
       </div>
       <div v-if="showCatalogue" id="sideCatalog-catalog-wrap">
         <div @click="showOrDisplay" class="switch">
@@ -40,7 +60,11 @@
       </div>
 
 
+
     </main>
+
+
+
 
   </div>
 

@@ -17,6 +17,7 @@
     "v-page": "^2.0.9",
     "vue": "^2.6.11",
     "vue-router": "^3.5.2",
+    "vuejs-emoji": "^0.1.8",
     "vuex": "^3.6.2"
   },
   "devDependencies": {

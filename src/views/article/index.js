@@ -17,7 +17,17 @@ export default {
       },
       showCatalogue:true,//是否显示文章目录
 
-      clickCount:0
+      clickCount:0,
+      iconConfig : {
+        placement: 'top',
+        size: '20px',
+        name: 'fa-smile-o', // font awesome icon name
+        color: '#423f3f' // icon color: hex、rgb or rgba value
+      },
+      comment:{
+        text:""
+      },
+      showTip:false,
     }
 
   },
@@ -162,6 +172,39 @@ export default {
 
       }
       this.clickCount++
+    },
+
+    /**
+     *添加表情
+     * @param e
+     */
+    selectEmoji(e){
+      let exe=/.*\/(.*?)\.png/g
+      this.comment.text+=`[:${exe.exec(e)[1]}:]`
+    },
+    /**
+     *
+     */
+    commentSubmit(){
+      if(!this.$store.state.user.user||this.comment.text==="")
+        return
+      let uid=this.$store.state.user.user.id
+      this.comment.aid=this.article.id
+      this.comment.uid=uid
+
+      this.$axios.post("/comment/save",this.comment).then(res=>{
+
+        if (res.data.code === 0) {
+          this.comment={
+            text: ""
+          }
+          this.showTip=true
+          setTimeout(()=>{
+            this.showTip=false
+          },1000)
+        }
+      })
+
     }
   }
 

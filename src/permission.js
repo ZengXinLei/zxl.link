@@ -10,6 +10,7 @@ router.beforeEach(((to, from, next) => {
   }
   store.commit("SET_ID",execArray[1])
 
+  store.dispatch("getInfo")
 
 
   console.log(store.state.eventListener)
