@@ -95,7 +95,7 @@ export default {
 @import '~@/main.less';
 
 #navbar {
-  z-index: 99999;
+  z-index: 1;
   position: fixed;
   width: 100%;
   height: 64px;

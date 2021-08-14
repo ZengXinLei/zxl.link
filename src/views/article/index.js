@@ -5,6 +5,8 @@ import Banner from '@/components/banner/banner'
 
 import {Base64} from 'js-base64'
 import eventListener from '@/store/modules/eventListener'
+
+
 export default {
   name: 'index',
   components: { Banner, Header },
@@ -24,9 +26,28 @@ export default {
         name: 'fa-smile-o', // font awesome icon name
         color: '#423f3f' // icon color: hex、rgb or rgba value
       },
+      /**
+       * 发布评论提交的评论信息
+       */
       comment:{
-        text:""
+        text:"",
+        cid:0
       },
+      comment2:{
+        text:"",
+        cid:0
+      },
+      /**
+       * 获取评论提交的信息
+       */
+      commentForm:{
+        page:1,
+        size:10,
+
+        aid:this.$store.state.user.id
+      },
+      commentList:[],
+
       showTip:false,
     }
 
@@ -48,6 +69,9 @@ export default {
     this.getArticle()
   },
   methods: {
+    /**
+     * 设置文章目录
+     */
     getMenu(){
       let navigation = new AutocJs({
         // 文章正文 DOM 节点的 ID 选择器
@@ -97,6 +121,7 @@ export default {
     },
     /**
      * 获取文章
+     * 获取完文章后获取评论
      */
     getArticle() {
       let path = this.$route.path
@@ -115,13 +140,13 @@ export default {
         })
       }).then(res=>{
         this.article.contentHtml=res.data
-        // this.article.contentHtml
-        console.log(this.article)
         setTimeout(()=>{
 
           this.getMenu()
 
         },500)
+        this.commentForm.aid=this.article.id
+        this.loadComment()
 
       })
 
@@ -131,6 +156,8 @@ export default {
      * 设置目录距离右边的位置
      */
     setRightPos(){
+      if(!document.getElementById("sideCatalog-catalog-wrap"))
+        return
       let nav=document.getElementById("sideCatalog-catalog-wrap")
       let navW=nav.offsetWidth
       let w = document.documentElement.offsetWidth
@@ -145,16 +172,28 @@ export default {
      */
     setTopPos(){
       let h = document.documentElement.scrollTop
-      if(h>=466){
-        document.getElementById("sideCatalog-catalog-wrap").style.position="fixed"
-        document.getElementById("sideCatalog-catalog-wrap").style.top="60px"
-
-      }else {
-        document.getElementById("sideCatalog-catalog-wrap").style.position="absolute"
-        document.getElementById("sideCatalog-catalog-wrap").style.top="3px"
+      let w_h=document.body.scrollHeight
+      let mask_h=document.getElementsByClassName("mask")[0].scrollHeight
 
 
+
+      if(w_h-document.body.offsetHeight-h+mask_h<30&&this.commentForm.aid){
+        this.loadComment()
       }
+
+      if(document.getElementById("sideCatalog-catalog-wrap")){
+        if(h>=466){
+          document.getElementById("sideCatalog-catalog-wrap").style.position="fixed"
+          document.getElementById("sideCatalog-catalog-wrap").style.top="60px"
+
+        }else {
+          document.getElementById("sideCatalog-catalog-wrap").style.position="absolute"
+          document.getElementById("sideCatalog-catalog-wrap").style.top="3px"
+
+
+        }
+      }
+
     },
     /**
      * 关闭还是打开文章目录
@@ -183,28 +222,48 @@ export default {
       this.comment.text+=`[:${exe.exec(e)[1]}:]`
     },
     /**
-     *
+     *发表评论
      */
-    commentSubmit(){
-      if(!this.$store.state.user.user||this.comment.text==="")
+    commentSubmit(comment){
+      if(!this.$store.state.user.user||comment.text==="")
         return
       let uid=this.$store.state.user.user.id
-      this.comment.aid=this.article.id
-      this.comment.uid=uid
+      comment.aid=this.article.id
+      comment.uid=uid
 
-      this.$axios.post("/comment/save",this.comment).then(res=>{
+      this.$axios.post("/comment/save",comment).then(res=>{
 
         if (res.data.code === 0) {
-          this.comment={
-            text: ""
-          }
-          this.showTip=true
-          setTimeout(()=>{
-            this.showTip=false
-          },1000)
+          comment.text=""
+          comment.cid=0
+
+          this.loadComment()
+          this.$message({
+            type:"error",
+            message:"评论成功"
+          })
         }
       })
 
+    },
+
+    /**
+     * 加载评论
+     */
+    loadComment(){
+
+      this.$axios.post("/comment/list",this.commentForm).then(res=>{
+        return new Promise(((resolve, reject) => {
+          if(res.data.code!==0)
+          {
+            reject()
+            return
+
+          }
+          this.commentList=res.data.list.records
+          resolve()
+        }))
+      })
     }
   }
 

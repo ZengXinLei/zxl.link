@@ -1,5 +1,5 @@
 <template>
-  <div class="banner" id="banner" :style="`height:${height};background-image:url('${background}')`">
+  <div class="head-banner" id="banner" :style="`height:${height};background-image:url('${background}')`">
     <div class="mask"></div>
 
     <slot></slot>
