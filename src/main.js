@@ -8,7 +8,7 @@ import request from '@/utils/request'
 import './permission'
 import "@/main.less"
 import store from '@/store/index'
-import Vue2Emoji from 'vuejs-emoji'
+// import Vue2Emoji from 'vuejs-emoji'
 Vue.config.productionTip = false
 let qs=require("qs")
 
@@ -18,7 +18,7 @@ Vue.prototype.$store=store
 
 Vue.use(ElementUI)
 Vue.use(VueRouter)
-Vue.use(Vue2Emoji)
+// Vue.use(Vue2Emoji)
 new Vue({
   render: h => h(App),
   router

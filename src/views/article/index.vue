@@ -51,7 +51,7 @@
 
             </div>
           </div>
-          <emoji-icon @select="selectEmoji" class="emoji" :iconConfig="iconConfig"></emoji-icon>
+<!--          <emoji-icon @select="selectEmoji" class="emoji" :iconConfig="iconConfig"></emoji-icon>-->
         </div>
         <div class="infinite-list" >
 
