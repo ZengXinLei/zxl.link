@@ -1,8 +1,8 @@
 import axios from 'axios'
 import { getToken, removeToken } from '@/utils/auth'
-
+import defaultSettings from '@/settings'
 const service = axios.create({
-  baseURL: process.env.NODE_ENV==="development"?'http://localhost:8080/':"http://www.zxl.link:8080/",
+  baseURL: "http://"+defaultSettings+"/",
   timeout: 30000// request timeout
 })
 service.interceptors.request.use(
