@@ -49,7 +49,18 @@ export const constantRoutes = [
     component: () => import('@/views/404'),
     hidden: true
   },
-
+  {
+    path: '/message',
+    component: Layout,
+    redirect: '/message',
+    children: [{
+      path: '/message',
+      name: 'message',
+      component: () => import('@/views/message/index'),
+      meta: { title: 'Dashboard', icon: 'dashboard' }
+    }],
+    hidden:true
+  },
 
   // {
   //   path: '/',
