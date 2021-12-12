@@ -2,7 +2,7 @@ import axios from 'axios'
 import { getToken, removeToken } from '@/utils/auth'
 import defaultSettings from '@/settings'
 const service = axios.create({
-  baseURL: "http://"+defaultSettings+"/",
+  baseURL: "http://"+defaultSettings.baseURL+"/",
   timeout: 30000// request timeout
 })
 service.interceptors.request.use(
