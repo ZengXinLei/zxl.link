@@ -1,49 +1,27 @@
 <template>
-  <div id="navbar" :class="navClass">
 
-    <div class="container">
-      <div class="banner">
+  <div class="navbar">
+    <vs-navbar
+        v-model="activeItem"
+
+        :color="`rgba(191, 201, 202,${mobile?1:0})`"
+        text-color="rgba(255,255,255,1)"
+        active-text-color="rgba(255,255,255,1)"
+        class="nabarx container">
+      <div slot="title">
         <a href="/" class="navbar-brand">
-          &nbsp;<strong>曾大人</strong>&nbsp;
+          <h3 style="color: #fff;">曾大人</h3>
         </a>
-<!--        <input type="checkbox" id="toggle" ></input>-->
-<!--        <table for="toggle">-->
-          <i class="iconfont icon-menu-line" @click="showCol"></i>
-
-<!--        </table>-->
       </div>
-      <div class="collapse" :style="`height:${isClick?165:1}px`">
 
-        <ul class="navbar-nav">
-          <li class="nav-item">
-            <router-link :to="`/${$store.state.user.id}/index`" class="nav-link"><i class="iconfont icon-pingtaiguanli"
-            ></i>首页
-            </router-link>
-          </li>
-          <li class="nav-item">
-            <router-link :to="`/${$store.state.user.id}/index/archives`" class="nav-link"><i
-                class="iconfont icon-product-fill"
-            ></i>归档
-            </router-link>
-          </li>
-<!--          <li class="nav-item">-->
-<!--            <router-link :to="`/${$store.state.user.id}/index/tags`" class="nav-link"><i class="iconfont icon-all-fill"-->
-<!--            ></i>分类-->
-<!--            </router-link>-->
-<!--          </li>-->
-          <li class="nav-item">
-            <router-link :to="`/${$store.state.user.id}/index/category`" class="nav-link"><i
-                class="iconfont icon-discount-fill"
-            ></i>标签
-            </router-link>
-          </li>
-<!--          <li class="nav-item">-->
-<!--            <router-link to="/" class="nav-link"><i class="iconfont icon-bussiness-man-fill"></i>关于</router-link>-->
-<!--          </li>-->
 
-        </ul>
-      </div>
-    </div>
+      <vs-navbar-item  v-for="(item,index) in list" :index="`${index}`">
+        <router-link :to="item.to" class="nav-link"><i :class="`iconfont icon-${item.icon}`"
+        ></i>{{item.name}}
+        </router-link>
+      </vs-navbar-item>
+
+    </vs-navbar>
   </div>
 </template>
 
@@ -54,12 +32,38 @@ export default {
   name: 'Header',
   data() {
     return {
-      navClass: '',
-      isClick:false
+      activeItem: 0,
+      mobile:/mobile/i.test(navigator.userAgent),//是否是手机
+      list:[
+        {
+          to:`/${this.$store.state.user.id}/index`,
+          icon:"pingtaiguanli",
+          name:"首页"
+        },
+        {
+          to:`/${this.$store.state.user.id}/index/archives`,
+          icon:"product-fill",
+          name:"归档"
+
+        },
+        {
+          to:`/${this.$store.state.user.id}/index/category`,
+          icon:"discount-fill",
+          name:"标签"
+
+        },
+      ],
+
+
     }
   },
 
   mounted() {
+    for (let i = 0; i < this.list.length; i++) {
+      let reg=RegExp(this.list[i].to+"$","i")
+      if(reg.test(window.location.href.split("?")[0]))
+        this.activeItem=i
+    }
     store.state.eventListener.forEach(e => {
       document.removeEventListener(e.type, e.func, true)
     })
@@ -81,10 +85,7 @@ export default {
     })
     document.addEventListener('scroll', func, true)
   },
-  methods:{
-    showCol(){
-      this.isClick=!this.isClick
-    }
+  methods: {
   }
 }
 </script>
@@ -94,11 +95,11 @@ export default {
 @import "~@/assets/alifont/iconfont.css";
 @import '~@/main.less';
 
-#navbar {
+.navbar {
   z-index: 1;
   position: fixed;
   width: 100%;
-  height: 64px;
+  height: 40px;
   //background: #2f4154;
   display: flex;
   flex-direction: row;
@@ -113,146 +114,13 @@ export default {
   -webkit-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
   transition: background 0.5s ease-in-out, height 0.5s ease-in-out;
 
-  .container {
+  .container{
     width: 100%;
     max-width: 1140px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-
-    .banner{
-
-      i{
-        display: none;
-        color: @navbar-text-color;
-
-        width: 26px;
-        height: 26px;
-        line-height: 26px;
-        font-size: 0.875rem;
-        cursor: pointer;
-        &:hover {
-          color: @link-hover-color;
-
-
-        }
-
-        //&:hover ~
-      }
-    }
-
-  }
-
-  .navbar-brand {
-    color: @navbar-text-color;
-    display: inline-block;
-    //padding-top: .3125rem;
-    //padding-bottom: .3125rem;
-    margin-right: 1rem;
-    font-size: 1.25rem;
-    line-height: 50px;
-    white-space: nowrap;
-
-  }
-
-  .navbar-nav { //ul
-    display: flex;
-    flex-direction: row;
-
-    list-style: none;
-
-    .nav-item { //li
-      margin-left: 10px;
-      //padding: 8px;
-
-      -webkit-box-sizing: border-box;
-      -moz-box-sizing: border-box;
-      box-sizing: border-box;
-
-
-      .nav-link { //a
-        color: @navbar-text-color;
-        font-size: 0.875rem;
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-        font-weight: 500;
-
-        padding-right: 3px;
-
-        i {
-
-          width: 4px;
-          height: 4px;
-          font-size: 0.875rem;
-
-        }
-
-        &:hover {
-          color: @link-hover-color;
-        }
-
-      }
-
-
-    }
-
-
   }
 }
 
-.navbar {
-  height: 50px !important;
-  background: @navbar-bg-color;
-}
-
-@media screen and (max-width: 768px) {
-
-  #navbar {
-    background: black;
-    opacity: 0.9;
-    .container {
-      display: flex;
-      flex-direction: column;
-      justify-content: start;
-
-      .banner{
-        width: 100%;
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-
-        i{
-          display: block;
-          //margin-right: 30px;
-
-        }
-      }
-
-      .collapse{
-        width: 100%;
-
-        background: black;
-        opacity: 0.9;
-        height:0px;
-        overflow: hidden;
-        transition: height 0.5s ease-in-out;
-
-        .navbar-nav {
-          display: flex;
-          flex-direction: column;
-          padding: 0 20px;
-          margin: 0;
-          li{
-            margin-top: 10px;
-          }
-
-        }
-      }
 
 
-    }
-  }
 
-
-}
 </style>
