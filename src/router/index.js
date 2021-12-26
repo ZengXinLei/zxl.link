@@ -56,7 +56,7 @@ export const constantRoutes = [
     children: [{
       path: '/message',
       name: 'message',
-      component: () => import('@/views/message/index'),
+      component: () => import('@/views/message/index.vue'),
       meta: { title: 'Dashboard', icon: 'dashboard' }
     }],
     hidden:true
