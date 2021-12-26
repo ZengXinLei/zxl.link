@@ -4,7 +4,7 @@
 
     <breadcrumb class="breadcrumb-container" />
     <div class="wrap">
-      <el-badge :value="0" :max="$store.getters.allCount" class="item">
+      <el-badge :value="allCount" :max="99" class="item">
         <router-link to="/message">消息</router-link>
       </el-badge>
       <div class="right-menu">
@@ -40,6 +40,7 @@
 import { mapGetters } from 'vuex'
 import Breadcrumb from '@/components/Breadcrumb'
 import Hamburger from '@/components/Hamburger'
+import socket from "@/utils/webSocket";
 
 export default {
   components: {
@@ -47,11 +48,16 @@ export default {
     Hamburger
   },
   computed: {
+
     ...mapGetters([
       'sidebar',
-      'avatar'
+      'avatar',
+      'allCount'
+
     ])
   },
+
+
   methods: {
     toggleSideBar() {
       this.$store.dispatch('app/toggleSideBar')
@@ -60,7 +66,9 @@ export default {
       await this.$store.dispatch('user/logout')
       this.$router.push(`/login?redirect=${this.$route.fullPath}`)
     }
-  }
+  },
+
+
 }
 </script>
 

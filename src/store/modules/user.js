@@ -1,7 +1,8 @@
 import { login, logout, getInfo } from '@/api/user'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import router, { resetRouter } from '@/router'
-
+import socket from "@/utils/webSocket";
+import store from "@/store";
 const getDefaultState = () => {
   return {
     token: getToken(),
@@ -52,6 +53,8 @@ const actions = {
 
         commit('SET_USER', data.baseInfo)
         resolve(data)
+        socket.type_id="reciveMsg_"+data.baseInfo.id
+        socket.init()
       }).catch(error => {
         reject(error)
       })

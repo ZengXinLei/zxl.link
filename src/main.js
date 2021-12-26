@@ -37,6 +37,7 @@ Vue.use(ElementUI, { locale })
 Vue.config.productionTip = false
 Vue.prototype.$axios=request
 Vue.prototype.$qs=qs
+Vue.prototype.$store=store
 
 new Vue({
   el: '#app',
