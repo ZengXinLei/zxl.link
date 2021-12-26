@@ -3,13 +3,16 @@ import { MessageBox, Message } from 'element-ui'
 import store from '@/store'
 import { getToken, setToken } from '@/utils/auth'
 import router from '@/router'
+import defaultSettings from '@/settings'
 
 // create an axios instance
 const service = axios.create({
-  // baseURL: "http://localhost:8080/", // url = base url + request url
-  baseURL: "http://192.168.9.103:8080/", // url = base url + request url
+  baseURL: "http://"+defaultSettings.baseURL+"/", // url = base url + request url
+  // baseURL: "http://192.168.9.103:8080/", // url = base url + request url
+  // baseURL: "http://www.zxl.link:8080/", // url = base url + request url
   // baseURL: process.env.VUE_APP_BASE_API, // url = base url + request url
   // withCredentials: true, // send cookies when cross-domain requests
+  //http://www.zxl.link:8088/ac
   timeout: 50000 // request timeout
 })
 
